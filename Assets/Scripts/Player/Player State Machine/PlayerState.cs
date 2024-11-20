@@ -1,23 +1,31 @@
 using UnityEngine;
 
+// Classe abstrata que define a estrutura básica de um estado do Jogador
 public abstract class PlayerState
 {
+    // Referência à máquina de estados do Jogador
     protected PlayerStateMachine playerStateMachine;
+
+    // ReferÊncia ao controlador do Jogador
     protected PlayerController playerController;
 
+    // Constrututor que inicializa as referências à máquina de estados e ao controlador
     public PlayerState(PlayerStateMachine player)
     {
         playerStateMachine = player;
         playerController = player.controller;
     }
 
-    public abstract void OnEnter();
-    public abstract void OnUpdate();
-    public abstract void OnExit();
+    // Métodos abstratos que devem ser implementdaos pelas classes que herdam PlayerState
+    public abstract void OnEnter();     // Chamada quando o estado é ativado
+    public abstract void OnUpdate();    // Chamada a cada frame para atualizar o comportamento
+    public abstract void OnExit();      // Chamada quando o estado é desativado
 }
 
+// Estado do Jogadro enquanto ele se move
 public class MovingState : PlayerState
 {
+    // Construtor que passa a referência da StateMachine
     public MovingState(PlayerStateMachine player) : base(player) { }
 
     public override void OnEnter()
@@ -27,6 +35,7 @@ public class MovingState : PlayerState
 
     public override void OnUpdate()
     {
+        // Se o Jogador estiver Idle (Sem Movimento), troca para o estado Idle
         if (playerController.isIdle == true) 
             playerStateMachine.SwitchState(playerStateMachine.idleState);
     }
@@ -37,8 +46,10 @@ public class MovingState : PlayerState
     }
 }
 
+// Estado do Jogador quando ele está parado (Idle)
 public class IdleState : PlayerState
 {
+    // Construtor que passa a referência da StateMachine
     public IdleState(PlayerStateMachine player) : base(player) { }
 
     public override void OnEnter()
@@ -48,6 +59,7 @@ public class IdleState : PlayerState
 
     public override void OnUpdate()
     {
+        // Se o Jogador começa a se mover, troca para o estado Moving
         if (playerController.isMoving == true)
             playerStateMachine.SwitchState(playerStateMachine.movingState);
     }
