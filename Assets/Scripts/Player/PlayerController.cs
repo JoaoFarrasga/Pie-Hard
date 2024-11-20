@@ -12,12 +12,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Rigidbody rb;
     private Vector3 movementInput;
-    private PlayerStateMachine stateMachine;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        stateMachine = GetComponent<PlayerStateMachine>();
     }
 
     public void OnMove(InputValue value)
@@ -33,16 +31,11 @@ public class PlayerController : MonoBehaviour
         {
             isIdle = false;
             isMoving = true;
-
-            Debug.Log("Moving");
-
-            stateMachine.SwitchState(stateMachine.movingState);
         }
         else
         {
             isIdle = true;
             isMoving = false;
-            stateMachine.SwitchState(stateMachine.idleState);
         }
     }
 

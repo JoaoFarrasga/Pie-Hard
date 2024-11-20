@@ -27,7 +27,8 @@ public class MovingState : PlayerState
 
     public override void OnUpdate()
     {
-
+        if (playerController.isIdle == true) 
+            playerStateMachine.SwitchState(playerStateMachine.idleState);
     }
 
     public override void OnExit()
@@ -47,7 +48,8 @@ public class IdleState : PlayerState
 
     public override void OnUpdate()
     {
-
+        if (playerController.isMoving == true)
+            playerStateMachine.SwitchState(playerStateMachine.movingState);
     }
 
     public override void OnExit()
