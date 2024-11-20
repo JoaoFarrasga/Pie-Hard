@@ -6,8 +6,15 @@ public class PlayerController : MonoBehaviour
     public bool isIdle { get; private set; } = true;
     public bool isMoving { get; private set; } = false;
 
-
+    [Header("Movement Settings")]
     public float moveSpeed = 5f;
+
+    [Header("Game Field Bounds")]
+    public Vector2 minBounds = new Vector2(-10f, -10f);
+    public Vector2 maxBounds = new Vector2(10f, 10f);
+
+    [Header("Field Division")]
+    public bool isPlayerOnLeftSide = true;
 
     private Vector2 moveInput;
     private Rigidbody rb;
@@ -49,7 +56,20 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        Vector3 movement = movementInput * moveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + movement);
+        Vector3 newPosition = rb.position + movementInput * moveSpeed * Time.fixedDeltaTime;
+
+        newPosition.x = Mathf.Clamp(newPosition.x, minBounds.x, maxBounds.x);
+        newPosition.z = Mathf.Clamp(newPosition.z, minBounds.y, maxBounds.y);
+
+        if (isPlayerOnLeftSide && newPosition.x > 0)
+        {
+            newPosition.x = 0;
+        }
+        else if (!isPlayerOnLeftSide && newPosition.x < 0)
+        {
+            newPosition.x = 0;
+        }
+
+        rb.MovePosition(newPosition);
     }
 }
