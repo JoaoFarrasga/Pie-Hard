@@ -10,9 +10,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<GameObject> uiGO= new();
     private GameObject currentUI;
 
-    [Header("Timer")]
-    [SerializeField] double time = 60;
-
 
     private void Awake()
     {
@@ -43,8 +40,4 @@ public class UIManager : MonoBehaviour
     public void DisableUIScript() { currentUI.GetComponent<MonoBehaviour>().enabled = false; }
 
     public List<GameObject> GetUIList() { return uiGO; }
-
-    public double GetTimer() { return time; }
-
-    public void ResetTimer() { time = 60; }
 }

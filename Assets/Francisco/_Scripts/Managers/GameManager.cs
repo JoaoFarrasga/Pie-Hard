@@ -13,7 +13,10 @@ public class GameManager : MonoBehaviour
     //private Dictionary<string, int> playerScore = new();
 
     private List<Dictionary<string, int>> players = new();
-    
+
+    [Header("Timer")]
+    [SerializeField] double time = 60;
+
 
     private void Awake()
     {
@@ -31,7 +34,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateGameState(GameState.InitialScreen);
+        State = GameState.InitialScreen;
+        //UpdateGameState(GameState.InitialScreen);
         AddPlayers(2);
     }
 
@@ -44,6 +48,8 @@ public class GameManager : MonoBehaviour
             case GameState.InitialScreen:
                 UIManager.uiManager.DisableUIGO();
                 UIManager.uiManager.EnableUIGO(0);
+                ResetTimer();
+                ResetScore();
                 break;
             case GameState.GameStart:
                 UIManager.uiManager.DisableUIGO();
@@ -64,6 +70,11 @@ public class GameManager : MonoBehaviour
         }
 
         OnGameStateChanged?.Invoke(newState);
+    }
+
+    private void Update()
+    {
+        if(State == GameState.InGame) time -= Time.deltaTime;
     }
 
     public void AddPlayers(int numOfPlayers) 
@@ -94,6 +105,16 @@ public class GameManager : MonoBehaviour
     {
         return players;
     }
+
+    public double GetTimer() { return time; }
+
+    public void ResetTimer() { time = 60; }
+
+    public void ResetScore()
+    {
+        for (int i = 0; i < players.Count; i++) { players[i]["PlayerScore"] = 0; }
+    }
+
 }
 
 public enum GameState
