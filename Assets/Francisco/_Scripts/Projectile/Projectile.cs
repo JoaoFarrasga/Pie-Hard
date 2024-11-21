@@ -9,23 +9,22 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
+        rb = GetComponent<Rigidbody>(); //initialize rigidbody component
+        collider = GetComponent<Collider>();//initialize Collider component
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player")) //Checks if there is contact with players
         {
-            Debug.Log("PlayerContact");
-            foreach (Transform go in other.gameObject.transform)
+            foreach (Transform go in other.gameObject.transform) //iterates through the gameobject children
             {
-                if (go.GetComponent<HandSpaceVerification>().VerifySpaceState())
+                if (go.GetComponent<HandSpaceVerification>().VerifySpaceState())//checks if there are any empty hands left
                 {
-                    gameObject.transform.parent = go;
+                    gameObject.transform.parent = go;//parents the projectile to the hand
                     gameObject.transform.localPosition = Vector3.zero;
-                    go.GetComponent<HandSpaceVerification>().ChangeSpaceState();
-                    projectileID = other.gameObject.GetComponent<Player>().GetID();
+                    go.GetComponent<HandSpaceVerification>().ChangeSpaceState();//indicates that this hand is not empty now
+                    projectileID = other.gameObject.GetComponent<Player>().GetID();// the projectile gets the same id as the player
                     return;
                 }
             }
@@ -34,10 +33,10 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<Player>().GetID() != projectileID)
+        if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<Player>().GetID() != projectileID)//checks collision with player
         {
-            GameManager.gameManager.OnScoreChanged(projectileID);
-            Destroy(this.gameObject);
+            GameManager.gameManager.OnScoreChanged(projectileID);// changes the score of the players
+            Destroy(this.gameObject);//destroys projectile
         }
     }
 
@@ -45,7 +44,7 @@ public class Projectile : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space)) 
         {
-            rb.linearVelocity = Vector3.forward;
+            rb.linearVelocity = Vector3.forward; //testing
             gameObject.transform.parent = null;
             collider.isTrigger = false;
         }

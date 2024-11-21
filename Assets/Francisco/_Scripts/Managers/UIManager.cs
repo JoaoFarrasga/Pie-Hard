@@ -27,17 +27,19 @@ public class UIManager : MonoBehaviour
         currentUI = uiGO[0];
     }
 
+    //Enables Current UI GameObjects
     public void EnableUIGO(int ui)
     {
         currentUI = uiGO[ui];
         currentUI.SetActive(true);
     }
 
+    //Disables Current UI GameObjects
     public void DisableUIGO() { currentUI.SetActive(false); }
 
-    public void EnableUIScript() { currentUI.GetComponent<MonoBehaviour>().enabled = true; }
+    //public void EnableUIScript() { currentUI.GetComponent<MonoBehaviour>().enabled = true; }
 
-    public void DisableUIScript() { currentUI.GetComponent<MonoBehaviour>().enabled = false; }
+    //public void DisableUIScript() { currentUI.GetComponent<MonoBehaviour>().enabled = false; }
 
-    public List<GameObject> GetUIList() { return uiGO; }
+    //public List<GameObject> GetUIList() { return uiGO; }
 }

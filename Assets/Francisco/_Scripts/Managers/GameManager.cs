@@ -74,9 +74,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(State == GameState.InGame) time -= Time.deltaTime;
+        if(State == GameState.InGame) time -= Time.deltaTime; // Game Timer
     }
 
+    //Add the exact number of player to the dictionary to store the score and player ID's
     public void AddPlayers(int numOfPlayers) 
     {
         for(int i = 0; i < numOfPlayers; i++)
@@ -86,30 +87,31 @@ public class GameManager : MonoBehaviour
             player.Add("PlayerScore", 0);
             players.Add(player);
         }
-        Debug.Log("ID: " + players[0]["PlayerID"] + " Score: " + players[0]["PlayerScore"]);
-        Debug.Log("ID: " + players[1]["PlayerID"] + " Score: " + players[1]["PlayerScore"]);
     }
 
-
+    //Score changes when a projectile hits a player
     public void OnScoreChanged(int playerID)
     {
         for (int i = 0; i < players.Count; i++)
         {
             if(players[i]["PlayerID"] == playerID) players[i]["PlayerScore"]++;
-            Debug.Log("ID: " + players[i]["PlayerID"] + "Score: " + players[i]["PlayerScore"]);
         }
 
     }
 
+    //returns dictionary with player info
     public List<Dictionary<string, int>> GetPlayerInfo()
     {
         return players;
     }
 
+    //returns time of the timer
     public double GetTimer() { return time; }
 
+    //Resets the timer
     public void ResetTimer() { time = 60; }
 
+    //resets the score
     public void ResetScore()
     {
         for (int i = 0; i < players.Count; i++) { players[i]["PlayerScore"] = 0; }
@@ -117,6 +119,7 @@ public class GameManager : MonoBehaviour
 
 }
 
+//States of the game
 public enum GameState
 {
     InitialScreen,

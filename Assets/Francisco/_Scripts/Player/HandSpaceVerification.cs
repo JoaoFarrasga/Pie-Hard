@@ -9,6 +9,6 @@ public class HandSpaceVerification : MonoBehaviour
         isEmpty = true;
     }
 
-    public bool VerifySpaceState() { return isEmpty; }
-    public void ChangeSpaceState() { isEmpty = !isEmpty; }
+    public bool VerifySpaceState() { return isEmpty; } //returns variable
+    public void ChangeSpaceState() { isEmpty = !isEmpty; }//alternates between empty and not empty as the game proceeds
 }
