@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] int projectileID;
 
     [Header("Player Reference")]
-    [SerializeField] Player player;
+    [SerializeField] PlayerThrow player;
 
     [HideInInspector] [Header("Projectile Atributes")]
     private Rigidbody rb;
@@ -18,15 +18,6 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody>(); //initialize rigidbody component
         collider = GetComponent<Collider>();//initialize Collider component
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("Player") && projectileID != 0 )//checks collision with player
-    //    {
-    //        GameManager.gameManager.OnScoreChanged(projectileID);// changes the score of the players
-    //        Destroy(this.gameObject);//destroys projectile
-    //    }
-    //}
 
     public Rigidbody GetRigidBodyComponent() { return rb; }
     

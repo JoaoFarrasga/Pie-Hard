@@ -88,10 +88,7 @@ public class GameManager : MonoBehaviour
     }
 
     //returns dictionary with player info
-    public List<Dictionary<string, int>> GetPlayerInfo()
-    {
-        return players;
-    }
+    public List<Dictionary<string, int>> GetPlayerInfo() {  return players; }
 
     //returns time of the timer
     public double GetTimer() { return time; }
