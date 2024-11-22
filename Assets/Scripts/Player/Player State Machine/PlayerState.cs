@@ -69,3 +69,77 @@ public class IdleState : PlayerState
 
     }
 }
+
+// Estado do Jogadro enquanto ele apanha um item
+public class PickUpState : PlayerState
+{
+    // Construtor que passa a referência da StateMachine
+    public PickUpState(PlayerStateMachine player) : base(player) { }
+
+    public override void OnEnter()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+        
+    }
+
+    public override void OnExit()
+    {
+
+    }
+}
+
+// Estado do Jogadro quando ele atira o item
+public class ThrowState : PlayerState
+{
+    // Construtor que passa a referência da StateMachine
+    public ThrowState(PlayerStateMachine player) : base(player) { }
+
+    public override void OnEnter()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+        
+    }
+
+    public override void OnExit()
+    {
+
+    }
+}
+
+// Estado do Jogadro quando ele leva dano
+public class TakeDamageState : PlayerState
+{
+    private float timeSinceDamage; // Variável para contar o tempo desde que entrou no estado
+
+    // Construtor que passa a referência da StateMachine
+    public TakeDamageState(PlayerStateMachine player) : base(player) { }
+
+    public override void OnEnter()
+    {
+        timeSinceDamage = 0f; // Reseta o contador de tempo ao entrar no estado
+    }
+
+    public override void OnUpdate()
+    {
+        timeSinceDamage += Time.deltaTime; // Incrementa o tempo no Estado
+
+        // Torca de estado, após 2 Segundos
+        if (timeSinceDamage >= 2f)
+        {
+            playerStateMachine.SwitchState(playerStateMachine.idleState);
+        }
+    }
+
+    public override void OnExit()
+    {
+
+    }
+}
