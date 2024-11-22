@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileID: 0
-  player: {fileID: 1073062877}
+  player: {fileID: 0}
 --- !u!54 &358302572
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -327,8 +327,10 @@ GameObject:
   - component: {fileID: 533234575}
   - component: {fileID: 533234574}
   - component: {fileID: 533234573}
-  - component: {fileID: 533234577}
   - component: {fileID: 533234578}
+  - component: {fileID: 533234579}
+  - component: {fileID: 533234580}
+  - component: {fileID: 533234581}
   m_Layer: 0
   m_Name: Player_1
   m_TagString: Player
@@ -421,7 +423,7 @@ Transform:
   m_GameObject: {fileID: 533234572}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -429,20 +431,6 @@ Transform:
   - {fileID: 501183435}
   m_Father: {fileID: 1492688794}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &533234577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533234572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2a106d3bd1616b4693fb46d16c7ad67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 1
-  playerInput: {fileID: 0}
 --- !u!114 &533234578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,6 +461,66 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &533234579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533234572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 125207f926a25ed41892b49e36e91e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  minBounds: {x: -10, y: -10}
+  maxBounds: {x: 10, y: 10}
+  isPlayerOnLeftSide: 1
+  fieldBoundaryOffSet: 1
+  playerID: 0
+  playerInput: {fileID: 0}
+--- !u!114 &533234580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533234572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de1b4690b79f7e741a6e54bc527514ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  currentStateName: 
+--- !u!54 &533234581
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533234572}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &544686567
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,8 +793,10 @@ GameObject:
   - component: {fileID: 1073062875}
   - component: {fileID: 1073062874}
   - component: {fileID: 1073062873}
-  - component: {fileID: 1073062877}
   - component: {fileID: 1073062878}
+  - component: {fileID: 1073062879}
+  - component: {fileID: 1073062880}
+  - component: {fileID: 1073062881}
   m_Layer: 0
   m_Name: Player_2
   m_TagString: Player
@@ -847,20 +897,6 @@ Transform:
   - {fileID: 621580944}
   m_Father: {fileID: 1492688794}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1073062877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073062872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2a106d3bd1616b4693fb46d16c7ad67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 2
-  playerInput: {fileID: 0}
 --- !u!114 &1073062878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,6 +927,66 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1073062879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073062872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 125207f926a25ed41892b49e36e91e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  minBounds: {x: -10, y: -10}
+  maxBounds: {x: 10, y: 10}
+  isPlayerOnLeftSide: 1
+  fieldBoundaryOffSet: 1
+  playerID: 0
+  playerInput: {fileID: 0}
+--- !u!114 &1073062880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073062872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de1b4690b79f7e741a6e54bc527514ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  currentStateName: 
+--- !u!54 &1073062881
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073062872}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &1155733634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,7 +1178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileID: 0
-  player: {fileID: 1073062877}
+  player: {fileID: 0}
 --- !u!54 &1659747598
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1233,7 +1329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileID: 0
-  player: {fileID: 1073062877}
+  player: {fileID: 0}
 --- !u!54 &1674604706
 Rigidbody:
   m_ObjectHideFlags: 0
