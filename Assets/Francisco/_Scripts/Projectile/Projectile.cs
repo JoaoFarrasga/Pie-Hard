@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    [Header("ProjectileID")]
     [SerializeField] int projectileID;
+
+    [Header("Player Reference")]
     [SerializeField] Player player;
+
+    [HideInInspector] [Header("Projectile Atributes")]
     private Rigidbody rb;
     private Collider collider;
+    private int speed = 10;
 
     private void Start()
     {
@@ -13,47 +19,22 @@ public class Projectile : MonoBehaviour
         collider = GetComponent<Collider>();//initialize Collider component
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player")) //Checks if there is contact with players
-        {
-            foreach (Transform go in other.gameObject.transform) //iterates through the gameobject children
-            {
-                if (go.GetComponent<HandSpaceVerification>().VerifySpaceState())//checks if there are any empty hands left
-                {
-                    gameObject.transform.parent = go;//parents the projectile to the hand
-                    gameObject.transform.localPosition = Vector3.zero;
-                    go.GetComponent<HandSpaceVerification>().ChangeSpaceState();//indicates that this hand is not empty now
-                    projectileID = other.gameObject.GetComponent<Player>().GetID();// the projectile gets the same id as the player
-                    return;
-                }
-            }
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player") && projectileID != 0 )//checks collision with player
+    //    {
+    //        GameManager.gameManager.OnScoreChanged(projectileID);// changes the score of the players
+    //        Destroy(this.gameObject);//destroys projectile
+    //    }
+    //}
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<Player>().GetID() != projectileID)//checks collision with player
-        {
-            GameManager.gameManager.OnScoreChanged(projectileID);// changes the score of the players
-            Destroy(this.gameObject);//destroys projectile
-        }
-    }
+    public Rigidbody GetRigidBodyComponent() { return rb; }
+    
+    public Collider GetColliderComponent() { return collider; }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Space)) 
-        {
-            rb.linearVelocity = Vector3.forward; //testing
-            gameObject.transform.parent = null;
-            collider.isTrigger = false;
-        }
-    }
+    public int GetSpeed() { return speed; }
 
-    private void Throw()
-    {
-        rb.linearVelocity = Vector3.forward;
-        gameObject.transform.parent = null;
-        collider.isTrigger = false;
-    }  //Implementar
+    public void SetID(int id) { projectileID = id; }
+    
+    public int GetID() { return projectileID; }
 }

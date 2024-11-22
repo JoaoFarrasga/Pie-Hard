@@ -8,8 +8,8 @@ public class PauseScreenUI : MonoBehaviour
 
     private void Start()
     {
-        resumeBtn.onClick.AddListener(ResumeGame);
-        mainMenuBtn.onClick.AddListener(BackToMainMenu);
+        resumeBtn.onClick.AddListener(ResumeGame); 
+        mainMenuBtn.onClick.AddListener(BackToMainMenu);      //Clicks Buttons
         quitGameBtn.onClick.AddListener(QuitGame);
     }
 

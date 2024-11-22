@@ -10,8 +10,6 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnGameStateChanged;
 
-    //private Dictionary<string, int> playerScore = new();
-
     private List<Dictionary<string, int>> players = new();
 
     [Header("Timer")]
@@ -26,16 +24,14 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject); // Don't destroy this object when loading new scenes
         }
         else
-        {
-            // If an instance already exists, destroy this one
-            Destroy(gameObject);
+        { 
+            Destroy(gameObject);// If an instance already exists, destroy this one
         }
     }
 
     private void Start()
     {
-        State = GameState.InitialScreen;
-        //UpdateGameState(GameState.InitialScreen);
+        UpdateGameState(GameState.InitialScreen);
         AddPlayers(2);
     }
 
@@ -46,24 +42,16 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.InitialScreen:
-                UIManager.uiManager.DisableUIGO();
-                UIManager.uiManager.EnableUIGO(0);
                 ResetTimer();
                 ResetScore();
                 break;
             case GameState.GameStart:
-                UIManager.uiManager.DisableUIGO();
-                UIManager.uiManager.EnableUIGO(1);
                 break;
             case GameState.InGame:
-                UIManager.uiManager.DisableUIGO();
-                UIManager.uiManager.EnableUIGO(1);
                 break;
             case GameState.GameEnd:
                 break;
             case GameState.Pause:
-                UIManager.uiManager.DisableUIGO();
-                UIManager.uiManager.EnableUIGO(2);
                 break;
             default:
                 break;

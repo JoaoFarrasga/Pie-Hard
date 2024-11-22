@@ -9,7 +9,7 @@ public class MainMenuUI : MonoBehaviour
     private void Start()
     {
         startGameBtn.onClick.AddListener(StartGame);
-        settingsBtn.onClick.AddListener(SettingsScreen);
+        settingsBtn.onClick.AddListener(SettingsScreen);     //Clicks buttons 
         quitGameBtn.onClick.AddListener(QuitGame);
     }
 

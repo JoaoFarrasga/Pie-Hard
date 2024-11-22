@@ -4,42 +4,56 @@ using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager uiManager;
-
     [Header("UI")]
-    [SerializeField] private List<GameObject> uiGO= new();
+    [SerializeField] private List<GameObject> uiGO = new();
     private GameObject currentUI;
+    private GameState lastGameState;
 
 
     private void Awake()
     {
-        if (uiManager == null)
+        GameManager.OnGameStateChanged += OnGameStateUIChanged;
+        currentUI = uiGO[0]; //Makes main menu current ui
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChanged -= OnGameStateUIChanged;
+    }
+
+    private void OnGameStateUIChanged(GameState gameState)
+    {
+        switch (gameState)
         {
-            uiManager = this;
-            DontDestroyOnLoad(gameObject); // Don't destroy this object when loading new scenes
-        }
-        else
-        {
-            // If an instance already exists, destroy this one
-            Destroy(gameObject);
+            case GameState.InitialScreen:
+                DisableUIGO();
+                EnableUIGO(0);
+                break;
+            case GameState.GameStart:
+                break;
+            case GameState.InGame:
+                DisableUIGO();
+                EnableUIGO(1);
+                break;
+            case GameState.GameEnd:
+                break;
+            case GameState.Pause:
+                EnableUIGO(2);
+                break;
+            default:
+                break;
         }
 
-        currentUI = uiGO[0];
+        lastGameState = gameState;
     }
 
     //Enables Current UI GameObjects
-    public void EnableUIGO(int ui)
+    public void EnableUIGO(int ui) //Changes ui according to the game state
     {
         currentUI = uiGO[ui];
         currentUI.SetActive(true);
     }
 
     //Disables Current UI GameObjects
-    public void DisableUIGO() { currentUI.SetActive(false); }
-
-    //public void EnableUIScript() { currentUI.GetComponent<MonoBehaviour>().enabled = true; }
-
-    //public void DisableUIScript() { currentUI.GetComponent<MonoBehaviour>().enabled = false; }
-
-    //public List<GameObject> GetUIList() { return uiGO; }
+    public void DisableUIGO() { currentUI.SetActive(false); } //Disables current ui
 }
