@@ -12,6 +12,9 @@ public class PlayerStateMachine : MonoBehaviour
     // Estados específicos que o Jogador pode ter
     public MovingState movingState;
     public IdleState idleState;
+    public PickUpState pickUpState;
+    public ThrowState throwState;
+    public TakeDamageState takeDamageState;
 
     // Nome do estado atual (para fins de Debug e Visualização no inspetor)
     public string currentStateName;

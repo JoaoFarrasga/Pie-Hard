@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,26 +18,50 @@ public class PlayerController : MonoBehaviour
 
     [Header("Field Division")]
     public bool isPlayerOnLeftSide = true; // Indica se o Jogador está no lado esquerdo do Campo
+    public float fieldBoundaryOffSet = 1f; // Variável para definir o offset da linha imaginária
 
     private Vector2 moveInput;      // Entrada do Movimento do Jogador (Teclado ou Comando)
     private Rigidbody rb;           // Referência ao Rigidbody
     private Vector3 movementInput;  // Entrada de Movimento convertida para um vetor 3D
 
+    private Vector3 lastFacingDirection = Vector3.forward; // Direção que o personagem está a "olhar"
+
+    private PlayerStateMachine playerStateMachine;
+
     private void Awake()
     {
         // Inicializa a referência ao Rigidbody
         rb = GetComponent<Rigidbody>();
+
+        // Obtém a referência para o PlayerStateMachine no mesmo GameObject
+        playerStateMachine = GetComponent<PlayerStateMachine>();
     }
 
     // Função chamada pelo sistema de Input do Unity (Quando o jogador fornece entradade movimento)
     public void OnMove(InputValue value)
     {
+        // Se o personagem está no estado de TakeDamage, ignora o input
+        if (playerStateMachine.currentState is TakeDamageState)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
+
         // Armazena o valor de entrada do jogador
         moveInput = value.Get<Vector2>();
     }
 
     private void Update()
     {
+        // Se o persongaem está no estado TakeDamage, não atualiza o movimento
+        if (playerStateMachine.currentState is TakeDamageState)
+        {
+            movementInput = Vector3.zero;
+            isIdle = true;
+            isMoving = false;
+            return;
+        }
+
         // Converte a entrada do movimento para um vetor 3D
         movementInput = new Vector3(moveInput.x, 0, moveInput.y);
 
@@ -46,6 +71,9 @@ public class PlayerController : MonoBehaviour
             // O Jogador está em movimento
             isIdle = false;
             isMoving = true;
+
+            // Atualiza a última direção que o personagem está a olhar
+            lastFacingDirection = movementInput.normalized;
         }
         else
         {
@@ -57,11 +85,19 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Se o personagem está no esdo de TakeDamage, não precisa de se movimentar
+        if (playerStateMachine.currentState is TakeDamageState)
+        {
+            return;
+        }
+
         // O movimento do Jogador é processado somente quando ele se está a mover
         if (isMoving)
         {
             MovePlayer(); // Move o Jogador
         }
+
+        RotatePlayer(); // Atualiza a rotação do Personagem
     }
 
     // Função que realiza o movimento do jogador e aplica as suas restrições
@@ -74,17 +110,30 @@ public class PlayerController : MonoBehaviour
         newPosition.x = Mathf.Clamp(newPosition.x, minBounds.x, maxBounds.x);
         newPosition.z = Mathf.Clamp(newPosition.z, minBounds.y, maxBounds.y);
 
-        // Impede o jogador de atravessar a barreira imaginária no eixo X = 0
-        if (isPlayerOnLeftSide && newPosition.x > 0) // Se o Jogador está na esquerda
+        // Ajusta o limite da linha Imaginária com base no lado em que o jogador está
+        float boundary = isPlayerOnLeftSide ? -fieldBoundaryOffSet : fieldBoundaryOffSet;
+
+        // Impede o jogador de atravessar a linha imaginária
+        if (isPlayerOnLeftSide && newPosition.x > boundary) // Se o Jogador está na esquerda
         {
-            newPosition.x = 0;
+            newPosition.x = boundary;
         }
-        else if (!isPlayerOnLeftSide && newPosition.x < 0) // Se o Jogador está na Direita
+        else if (!isPlayerOnLeftSide && newPosition.x < boundary) // Se o Jogador está na Direita
         {
-            newPosition.x = 0;
+            newPosition.x = boundary;
         }
 
         // Move o jogador para a sua nova posição calculada
         rb.MovePosition(newPosition);
+    }
+
+    private void RotatePlayer()
+    {
+        // Apenas rotaciona o personagem se ele estiver-se a mover
+        if (isMoving)
+        {
+            // Faz o personagem olhar na direção do movimento
+            transform.LookAt(transform.position + lastFacingDirection);
+        }
     }
 }
