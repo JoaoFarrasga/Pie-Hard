@@ -62,8 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (State == GameState.InGame) time -= Time.deltaTime; // Game Timer
-        else if (time <= 0f) UpdateGameState(GameState.GameEnd);
+        if(State == GameState.InGame) time -= Time.deltaTime; // Game Timer
     }
 
     //Add the exact number of player to the dictionary to store the score and player ID's
