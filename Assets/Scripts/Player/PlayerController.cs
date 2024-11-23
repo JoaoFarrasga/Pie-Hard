@@ -84,26 +84,31 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Chao")) return;
 
-        if (other.gameObject.CompareTag("Projectile") && other.gameObject.GetComponent<Projectile>().GetID() == 0)  // Checks if there is contact with players
+        if (other.CompareTag("Projectile")) 
         {
-            foreach (Transform go in gameObject.transform)
+            if (other.gameObject.GetComponent<Projectile>().GetID() == 0)  // Checks if there is contact with players
             {
-                if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) // Checks if there are any empty hands left
+                foreach (Transform go in gameObject.transform)
                 {
-                    other.gameObject.transform.parent = go; // Parents the projectile to the hand
-                    other.gameObject.transform.localPosition = Vector3.zero;
-                    go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Indicates that this hand is not empty now
-                    other.gameObject.GetComponent<Projectile>().SetID(playerID);// the projectile gets the same id as the player
-                    //other.gameObject.GetComponent<Projectile>().GetColliderComponent().isTrigger = false;
-                    return;
+                    if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) // Checks if there are any empty hands left
+                    {
+                        other.gameObject.transform.parent = go; // Parents the projectile to the hand
+                        other.gameObject.transform.localPosition = Vector3.zero;
+                        go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Indicates that this hand is not empty now
+                        other.gameObject.GetComponent<Projectile>().SetID(playerID);// the projectile gets the same id as the player
+                                                                                    //other.gameObject.GetComponent<Projectile>().GetColliderComponent().isTrigger = false;
+                        return;
+                    }
                 }
             }
+            else if (other.gameObject.GetComponent<Projectile>().GetID() != playerID)
+            {
+                Debug.Log(other);
+                GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
+                Destroy(other.gameObject);//destroys projectile
+            }
         }
-        else
-        {
-            GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
-            Destroy(other.gameObject);//destroys projectile
-        }
+        
     }
 
     // Função chamada pelo sistema de Input do Unity (Quando o jogador fornece entradade movimento)
