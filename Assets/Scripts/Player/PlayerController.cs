@@ -84,6 +84,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Chao")) return;
+
         if (other.gameObject.CompareTag("Projectile") && other.gameObject.GetComponent<Projectile>().GetID() == 0)  // Checks if there is contact with players
         {
             foreach (Transform go in gameObject.transform)
