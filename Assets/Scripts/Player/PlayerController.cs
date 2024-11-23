@@ -68,7 +68,11 @@ public class PlayerController : MonoBehaviour
 
             Transform projectile = go.GetChild(0); // Gets the first Child of the Object
             // Gives movement to the projectile
-            projectile.GetComponent<Projectile>().GetRigidBodyComponent().linearVelocity = Vector3.forward * projectile.GetComponent<Projectile>().GetSpeed();
+            
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            rb.isKinematic = false;
+
+            projectile.GetComponent<Projectile>().GetRigidBodyComponent().linearVelocity = lastFacingDirection * projectile.GetComponent<Projectile>().GetSpeed();
             projectile.transform.parent = null; // Makes the Child without Parent
             // projectile.GetComponent<Projectile>().GetColliderComponent().isTrigger = false;
             go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
