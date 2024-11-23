@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,6 +22,13 @@ public class PlayerController : MonoBehaviour
     public bool isPlayerOnLeftSide = true; // Indica se o Jogador está no lado esquerdo do Campo
     public float fieldBoundaryOffSet = 1f; // Variável para definir o offset da linha imaginária
 
+    [SerializeField] int playerID;
+    List<GameObject> handsList = new();
+
+    [Header("PlayerInput")]
+    [SerializeField] PlayerInput playerInput;
+    private InputAction throwProjectile;
+
     private Vector2 moveInput;      // Entrada do Movimento do Jogador (Teclado ou Comando)
     private Rigidbody rb;           // Referência ao Rigidbody
     private Vector3 movementInput;  // Entrada de Movimento convertida para um vetor 3D
@@ -35,6 +44,66 @@ public class PlayerController : MonoBehaviour
 
         // Obtém a referência para o PlayerStateMachine no mesmo GameObject
         playerStateMachine = GetComponent<PlayerStateMachine>();
+
+        playerInput = GetComponent<PlayerInput>(); // Gets the player input component of this object
+        throwProjectile = playerInput.actions.FindAction("Throw"); // Finds the action throw in the input system
+        throwProjectile.Enable();
+    }
+
+    private void OnDisable()
+    {
+        throwProjectile.Disable();
+    }
+
+    private void Start()
+    {
+        throwProjectile.started += i => ThrowObject(); // Stats the action throw when clicked on Throw Key
+    }
+
+    private void ThrowObject()
+    {
+        foreach (Transform go in gameObject.transform)
+        {
+            if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
+
+            Transform projectile = go.GetChild(0); // Gets the first Child of the Object
+            // Gives movement to the projectile
+            
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            rb.isKinematic = false;
+
+            projectile.GetComponent<Projectile>().GetRigidBodyComponent().linearVelocity = lastFacingDirection * projectile.GetComponent<Projectile>().GetSpeed();
+            projectile.transform.parent = null; // Makes the Child without Parent
+            // projectile.GetComponent<Projectile>().GetColliderComponent().isTrigger = false;
+            go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
+            return;
+        }
+    }
+
+    public int GetID() { return playerID; } // Gets Player Id
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Projectile") && other.gameObject.GetComponent<Projectile>().GetID() == 0)  // Checks if there is contact with players
+        {
+            foreach (Transform go in gameObject.transform)
+            {
+                if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) // Checks if there are any empty hands left
+                {
+                    other.gameObject.transform.parent = go; // Parents the projectile to the hand
+                    other.gameObject.transform.localPosition = Vector3.zero;
+                    go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Indicates that this hand is not empty now
+                    other.gameObject.GetComponent<Projectile>().SetID(playerID);// the projectile gets the same id as the player
+                    //other.gameObject.GetComponent<Projectile>().GetColliderComponent().isTrigger = false;
+                    return;
+                }
+            }
+        }
+        else
+        {
+            GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
+            Destroy(other.gameObject);//destroys projectile
+        }
     }
 
     // Função chamada pelo sistema de Input do Unity (Quando o jogador fornece entradade movimento)
@@ -62,7 +131,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Converte a entrada do movimento para um vetor 3D
+        // Converte a entrada do movimento apara um vetor 3D
         movementInput = new Vector3(moveInput.x, 0, moveInput.y);
 
         // Atualiza os estados de Movimento com base na entrada do Jogador
@@ -132,8 +201,11 @@ public class PlayerController : MonoBehaviour
         // Apenas rotaciona o personagem se ele estiver-se a mover
         if (isMoving)
         {
+            // Clacula a rotação alvo com base na direção do movimento
+            Quaternion targetRotation = Quaternion.LookRotation(lastFacingDirection);
+
             // Faz o personagem olhar na direção do movimento
-            transform.LookAt(transform.position + lastFacingDirection);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * moveSpeed);
         }
     }
 }
