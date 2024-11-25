@@ -8,7 +8,6 @@ public class MainMenuUI : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("1");
         startGameBtn.onClick.AddListener(StartGame);
         settingsBtn.onClick.AddListener(SettingsScreen);     //Clicks buttons 
         quitGameBtn.onClick.AddListener(QuitGame);
@@ -16,8 +15,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void StartGame() 
     {
-        Debug.Log("2");
-        GameManager.gameManager.UpdateGameState(GameState.InGame); 
+        GameManager.gameManager.UpdateGameState(GameState.GameStart); 
     }
         
     private void SettingsScreen()

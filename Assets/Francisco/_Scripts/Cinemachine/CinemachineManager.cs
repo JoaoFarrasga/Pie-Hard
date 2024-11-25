@@ -4,15 +4,12 @@ using System;
 using System.Collections.Generic;
 
 public class CinemachineManager : MonoBehaviour
-{
-    [SerializeField] private List<PlayerController> playersGO;
-    [SerializeField] private List<CinemachineCamera> cameras;
-
+{ 
     private CinemachineCamera currentCamera;
 
     private void Awake()
     {
-        currentCamera = GetComponent<CinemachineCamera>();
+        currentCamera = transform.Find("CinemachineMainCamera").GetComponent<CinemachineCamera>();
         GameManager.OnGameStateChanged += OnGameEndState;
     }
 
@@ -24,28 +21,36 @@ public class CinemachineManager : MonoBehaviour
     {
         switch (state)
         {
+            case GameState.InitialScreen:
+                ChangeCamera("MainMenuCamera");
+                break;
+
+            case GameState.InGame:
+                ChangeCamera("CinemachineMainCamera");
+                break;
+
             case GameState.GameEnd:
                 if (GameManager.gameManager.GetWinner() == null) return;
-                for (int i = 0; i < playersGO.Count; i++)
+                    
+                if (GameManager.gameManager.GetWinner()["PlayerID"] == 1)
                 {
-                    if (GameManager.gameManager.GetWinner()["PlayerID"] == playersGO[i].GetID())
-                    {
-                        playersGO[i].GetComponentInChildren<CinemachineCamera>().enabled = true;
-                        currentCamera.enabled = !currentCamera.enabled;
-                        currentCamera = playersGO[i].GetComponentInChildren<CinemachineCamera>();
-                    }
+                    ChangeCamera("CameraLeftSide");
+                }
+                else
+                {
+                    ChangeCamera("CameraRightSide");
                 }
                 break;
-            case GameState.InGame:
-                {
-                    currentCamera.enabled = !currentCamera.enabled;
-                    GetComponent<CinemachineCamera>().enabled = true;
-                    currentCamera = gameObject.GetComponent<CinemachineCamera>();
-                }
-                break;
+
             default:
                 break;
+        }      
     }
-        
+
+    private void ChangeCamera(string camera)
+    {
+        currentCamera.enabled = !currentCamera.enabled;
+        transform.Find(camera).gameObject.GetComponent<CinemachineCamera>().enabled = true;
+        currentCamera = transform.Find(camera).GetComponent<CinemachineCamera>();
     }
 }

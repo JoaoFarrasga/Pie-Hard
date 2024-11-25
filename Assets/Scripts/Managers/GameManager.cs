@@ -43,8 +43,6 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.InitialScreen:
-                ResetTimer();
-                ResetScore();
                 break;
             case GameState.GameStart:
                 StartGame();
@@ -97,7 +95,7 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        foreach (Dictionary<string, int> player in players) player["PlayerScore"] = 0;
+        ResetScore();
         UpdateGameState(GameState.InGame);
     }
 
