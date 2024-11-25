@@ -2,80 +2,62 @@ using UnityEngine;
 
 public class MeteorBehavior : MonoBehaviour
 {
-    public GameObject explosionEffect; // Prefab da explosão visual
-    public GameObject smokeEffect;    // Prefab de fumaça contínua (opcional)
-    public AudioClip spawnSound;      // Som ao spawnar (exemplo: som de assobio)
-    public AudioClip explosionSound;  // Som da explosão ao bater no chão
-    public float fallSpeed = 10f;     // Velocidade de queda
-
-    private Rigidbody rb;             // Referência ao Rigidbody
-    private AudioSource audioSource;  // Referência ao componente de áudio
+    public Transform target;      // Posição de destino
+    public float fallSpeed = 10f; // Velocidade da queda
+    private bool hasLanded = false;
 
     void Start()
     {
-        // Certifique-se de que o meteoro tem um Rigidbody
-        rb = GetComponent<Rigidbody>();
-        if (rb == null)
+        // Garantir que o Rigidbody está configurado corretamente ao iniciar
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            rb = gameObject.AddComponent<Rigidbody>();
+            rb.isKinematic = false; // Permitir movimento físico durante a queda
+            rb.useGravity = false;  // Gravidade é controlada manualmente
         }
 
-        // Adiciona um AudioSource ao meteoro
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.loop = true; // Ativa o loop inicialmente
-
-        // Toca o som de spawn imediatamente
-        if (spawnSound != null)
+        // O Collider não é trigger enquanto o meteoro cai
+        Collider col = GetComponent<Collider>();
+        if (col != null)
         {
-            audioSource.clip = spawnSound;
-            audioSource.Play();
-
-            // Desativa o loop para que o som toque apenas uma vez
-            audioSource.loop = false;
+            col.isTrigger = false; // Sólido durante a queda
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        // Adiciona uma força constante para simular a queda
-        rb.linearVelocity = new Vector3(0, -fallSpeed, 0);
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        // Detecta colisão com o chão
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (!hasLanded)
         {
-            // Parar o som contínuo
-            if (audioSource.isPlaying)
-            {
-                audioSource.Stop();
-            }
+            // Move o meteoro em direção ao alvo
+            transform.position = Vector3.MoveTowards(transform.position, target.position, fallSpeed * Time.deltaTime);
 
-            // Tocar o som de explosão
-            if (explosionSound != null)
+            // Verifica se chegou ao destino
+            if (Vector3.Distance(transform.position, target.position) < 0.1f)
             {
-                audioSource.PlayOneShot(explosionSound);
-            }
-
-            // Criar a explosão visual
-            if (explosionEffect != null)
-            {
-                Instantiate(explosionEffect, transform.position, Quaternion.identity);
-            }
-
-            // Parar o meteoro no chão
-            if (rb != null)
-            {
-                rb.linearVelocity = Vector3.zero; // Para o movimento do meteoro
-                rb.isKinematic = true;     // Faz o meteoro parar no chão
-            }
-
-            // Criar fumaça contínua
-            if (smokeEffect != null)
-            {
-                Instantiate(smokeEffect, transform.position, Quaternion.identity);
+                Land();
             }
         }
+    }
+
+    private void Land()
+    {
+        hasLanded = true;
+
+        // Parar movimento físico
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero; // Para o movimento
+            rb.isKinematic = true;     // Desativa a física
+        }
+
+        // Configurar o Collider como trigger para permitir interação
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.isTrigger = true; // Ativar interação com o jogador
+        }
+
+        Debug.Log("Meteoro aterrou e está pronto para ser apanhado.");
     }
 }
