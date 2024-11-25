@@ -70,9 +70,9 @@ public class PlayerController : MonoBehaviour
             // Gives movement to the projectile
 
             projectile.GetComponent<Rigidbody>().isKinematic = false;
+            projectile.GetComponent<Rigidbody>().useGravity = true;
             projectile.GetComponent<Projectile>().GetRigidBodyComponent().linearVelocity = lastFacingDirection * projectile.GetComponent<Projectile>().GetSpeed();
             projectile.transform.parent = null; // Makes the Child without Parent
-            // projectile.GetComponent<Projectile>().GetColliderComponent().isTrigger = false;
             go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
             return;
         }

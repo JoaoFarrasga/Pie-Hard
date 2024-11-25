@@ -11,7 +11,8 @@ public class Projectile : MonoBehaviour
     [HideInInspector] [Header("Projectile Atributes")]
     private Rigidbody rb;
     private Collider collider;
-    private int speed = 10;
+    private int speed = 20;
+    private float projectileRadius;
 
     private void Start()
     {
@@ -28,4 +29,6 @@ public class Projectile : MonoBehaviour
     public void SetID(int id) { projectileID = id; }
     
     public int GetID() { return projectileID; }
+
+    private void OnTriggerEnter(Collider other) { if (other.CompareTag("Chao")) Destroy(gameObject); }
 }
