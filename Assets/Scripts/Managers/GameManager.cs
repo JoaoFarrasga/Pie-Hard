@@ -11,9 +11,10 @@ public class GameManager : MonoBehaviour
     public static event Action<GameState> OnGameStateChanged;
 
     private List<Dictionary<string, int>> players = new();
+    private Dictionary<string, int> winner;
 
     [Header("Timer")]
-    [SerializeField] double time = 60;
+    [SerializeField] double time = 15;
 
 
     private void Awake()
@@ -46,10 +47,12 @@ public class GameManager : MonoBehaviour
                 ResetScore();
                 break;
             case GameState.GameStart:
+                StartGame();
                 break;
             case GameState.InGame:
                 break;
             case GameState.GameEnd:
+                FindWinner();
                 break;
             case GameState.Pause:
                 break;
@@ -62,7 +65,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(State == GameState.InGame) time -= Time.deltaTime; // Game Timer
+        if(State == GameState.InGame) time -= Time.deltaTime;// Game Timer
+        if(time <= 0)
+        {
+            UpdateGameState(GameState.GameEnd);
+            ResetTimer();
+        }
     }
 
     //Add the exact number of player to the dictionary to store the score and player ID's
@@ -87,6 +95,26 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void StartGame()
+    {
+        foreach (Dictionary<string, int> player in players) player["PlayerScore"] = 0;
+        UpdateGameState(GameState.InGame);
+    }
+
+    private void FindWinner()
+    {
+        int points = 0;
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i]["PlayerScore"] > points)
+            {
+                points = players[i]["PlayerScore"];
+                winner = players[i];
+            }
+            else if (players[i]["PlayerScore"] == points) winner = null;
+        }
+    }
+
     //returns dictionary with player info
     public List<Dictionary<string, int>> GetPlayerInfo() {  return players; }
 
@@ -94,13 +122,15 @@ public class GameManager : MonoBehaviour
     public double GetTimer() { return time; }
 
     //Resets the timer
-    public void ResetTimer() { time = 60; }
+    public void ResetTimer() { time = 15; }
 
     //resets the score
     public void ResetScore()
     {
         for (int i = 0; i < players.Count; i++) { players[i]["PlayerScore"] = 0; }
     }
+
+    public Dictionary<string, int> GetWinner() { return winner; }
 
 }
 

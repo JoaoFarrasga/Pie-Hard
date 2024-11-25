@@ -36,6 +36,8 @@ public class UIManager : MonoBehaviour
                 EnableUIGO(1);
                 break;
             case GameState.GameEnd:
+                DisableUIGO();
+                EnableUIGO(3);
                 break;
             case GameState.Pause:
                 EnableUIGO(2);
