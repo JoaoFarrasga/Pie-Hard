@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+
+
 public class MeteorManager : MonoBehaviour
 {
     public GameObject objectToSpawn;        // Prefab do meteoro
@@ -113,3 +115,4 @@ public class MeteorManager : MonoBehaviour
         return new Vector3(planeCenter.x + randomX, planeCenter.y, planeCenter.z + randomZ);
     }
 }
+

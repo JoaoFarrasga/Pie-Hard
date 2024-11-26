@@ -2,25 +2,44 @@ using UnityEngine;
 
 public class MeteorBehavior : MonoBehaviour
 {
-    public Transform target;      // Posição de destino
-    public float fallSpeed = 10f; // Velocidade da queda
+    public Transform target;           // Posição de destino
+    public float fallSpeed = 10f;      // Velocidade da queda
+    public AudioClip spawnSound;       // Som ao spawnar
+    public AudioClip explosionSound;   // Som ao bater no chão
+    public float spawnSoundVolume;     // Volume do som de spawn (0 a 1)
+    public float explosionSoundVolume; // Volume do som de impacto (0 a 1)
+    public GameObject smokeEffect;     // Prefab do efeito de fumaça
+    public GameObject groundDamagePrefab; // Prefab para a marca no chão
+
     private bool hasLanded = false;
+    private AudioSource audioSource;
 
     void Start()
     {
-        // Garantir que o Rigidbody está configurado corretamente ao iniciar
+        // Adicionar o AudioSource
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.spatialBlend = 1.0f; // Configurar som 3D (localizado no espaço)
+        audioSource.rolloffMode = AudioRolloffMode.Linear; // Ajuste de rolagem do áudio (linear)
+
+        // Tocar o som de spawn assim que o meteoro é criado
+        if (spawnSound != null)
+        {
+            audioSource.PlayOneShot(spawnSound, spawnSoundVolume);
+        }
+
+        // Configurar o Rigidbody
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.isKinematic = false; // Permitir movimento físico durante a queda
-            rb.useGravity = false;  // Gravidade é controlada manualmente
+            rb.isKinematic = false;
+            rb.useGravity = false;  // Gravidade será controlada manualmente
         }
 
-        // O Collider não é trigger enquanto o meteoro cai
+        // Configurar o Collider
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
-            col.isTrigger = false; // Sólido durante a queda
+            col.isTrigger = false; // O meteoro é sólido durante a queda
         }
     }
 
@@ -36,6 +55,15 @@ public class MeteorBehavior : MonoBehaviour
             {
                 Land();
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Detectar quando o meteoro atinge o chão
+        if (!hasLanded && collision.transform.CompareTag("Ground")) // Certifique-se que o chão tem a tag "Ground"
+        {
+            Land();
         }
     }
 
@@ -58,6 +86,31 @@ public class MeteorBehavior : MonoBehaviour
             col.isTrigger = true; // Ativar interação com o jogador
         }
 
-        Debug.Log("Meteoro aterrou e está pronto para ser apanhado.");
+        // Parar som atual (queda) antes de tocar o som de explosão
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop(); // Interrompe o som em execução
+        }
+
+        // Tocar som de impacto/explosão
+        if (explosionSound != null)
+        {
+            audioSource.PlayOneShot(explosionSound, explosionSoundVolume);
+        }
+
+        // Criar o efeito de fumaça
+        if (smokeEffect != null)
+        {
+            GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity);
+            
+        }
+
+        // Criar a marca no chão
+        if (groundDamagePrefab != null)
+        {
+            Instantiate(groundDamagePrefab, transform.position, Quaternion.Euler(90, 0, 0)); // Rotação para alinhar ao chão
+        }
+
+        Debug.Log("Meteoro aterrou, marca criada no chão.");
     }
 }
