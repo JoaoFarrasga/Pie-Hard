@@ -3234,7 +3234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961747236813042333, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
       propertyPath: m_Height
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1961747236813042333, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
       propertyPath: m_Center.y
@@ -3339,7 +3339,7 @@ PrefabInstance:
       objectReference: {fileID: 33074098}
     - target: {fileID: 2955052515108409589, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
       propertyPath: m_Height
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2955052515108409589, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
       propertyPath: m_Center.y
