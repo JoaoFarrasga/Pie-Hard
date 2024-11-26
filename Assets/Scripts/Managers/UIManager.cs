@@ -30,12 +30,15 @@ public class UIManager : MonoBehaviour
                 EnableUIGO(0);
                 break;
             case GameState.GameStart:
+                Debug.Log(currentUI);
+                DisableUIGO();
                 break;
             case GameState.InGame:
-                DisableUIGO();
                 EnableUIGO(1);
                 break;
             case GameState.GameEnd:
+                break;
+            case GameState.ShowResults:
                 DisableUIGO();
                 EnableUIGO(3);
                 break;

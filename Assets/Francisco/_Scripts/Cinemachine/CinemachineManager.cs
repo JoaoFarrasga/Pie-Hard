@@ -25,11 +25,11 @@ public class CinemachineManager : MonoBehaviour
                 ChangeCamera("MainMenuCamera");
                 break;
 
-            case GameState.InGame:
+            case GameState.GameStart:
                 ChangeCamera("CinemachineMainCamera");
                 break;
 
-            case GameState.GameEnd:
+            case GameState.ShowResults:
                 if (GameManager.gameManager.GetWinner() == null) return;
                     
                 if (GameManager.gameManager.GetWinner()["PlayerID"] == 1)
