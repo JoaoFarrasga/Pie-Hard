@@ -5,14 +5,10 @@ public class Projectile : MonoBehaviour
     [Header("ProjectileID")]
     [SerializeField] int projectileID;
 
-    [Header("Player Reference")]
-    [SerializeField] PlayerThrow player;
-
     [HideInInspector] [Header("Projectile Atributes")]
     private Rigidbody rb;
     private Collider collider;
-    private int speed = 20;
-    private float projectileRadius;
+    [SerializeField] private int speed = 20;
 
     private void Start()
     {

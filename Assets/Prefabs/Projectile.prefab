@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileID: 0
-  player: {fileID: 0}
+  speed: 30
 --- !u!114 &5824745049746614078
 MonoBehaviour:
   m_ObjectHideFlags: 0

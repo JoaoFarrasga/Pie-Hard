@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public float fieldBoundaryOffSet = 1f; // Variável para definir o offset da linha imaginária
 
     [SerializeField] int playerID;
-    List<GameObject> handsList = new();
+    [SerializeField] List<GameObject> handsList = new();
     public int handsOcupied = 0;
 
     [Header("PlayerInput")]
@@ -69,13 +69,13 @@ public class PlayerController : MonoBehaviour
 
     private void ThrowObject()
     {
-        foreach (Transform go in gameObject.transform)
+        foreach (GameObject go in handsList)
         {
             if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
 
             isThrowing = true;
 
-            Transform projectile = go.GetChild(0); // Gets the first Child of the Object
+            Transform projectile = go.transform.GetChild(0); // Gets the first Child of the Object
             // Gives movement to the projectile
 
             playerStateMachine.SwitchState(playerStateMachine.throwState);
@@ -99,15 +99,15 @@ public class PlayerController : MonoBehaviour
         {
             if (other.gameObject.GetComponent<Projectile>().GetID() == 0)  // Checks if there is contact with players
             {
-                foreach (Transform go in gameObject.transform)
+                foreach (GameObject hand in handsList)
                 {
-                    if (go.GetComponent<HandSpaceVerification>() == null) continue;
+                    if (hand.GetComponent<HandSpaceVerification>() == null) continue;
 
-                    if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) // Checks if there are any empty hands left
+                    if (hand.GetComponent<HandSpaceVerification>().VerifySpaceState()) // Checks if there are any empty hands left
                     {
-                        other.gameObject.transform.parent = go; // Parents the projectile to the hand
+                        other.gameObject.transform.parent = hand.transform; // Parents the projectile to the hand
                         other.gameObject.transform.localPosition = Vector3.zero;
-                        go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Indicates that this hand is not empty now
+                        hand.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Indicates that this hand is not empty now
                         other.gameObject.GetComponent<Projectile>().SetID(playerID);// the projectile gets the same id as the player
                         //other.gameObject.GetComponent<Projectile>().GetColliderComponent().isTrigger = false;
                         handsOcupied++;
@@ -140,77 +140,94 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Verifica se o jogador está no estado de "Throwing"
-        if (isThrowing)
+        if(GameManager.gameManager.State == GameState.InGame)
         {
-            // Incrementa o tempo desde o último arremesso
-            timeSinceThrow += Time.deltaTime;
-
-            // Após 1 segundo, define isThrowing como false
-            if (timeSinceThrow >= 1f)
+            // Verifica se o jogador está no estado de "Throwing"
+            if (isThrowing)
             {
-                isThrowing = false;
-                playerStateMachine.SwitchState(playerStateMachine.idleState);
-                timeSinceThrow = 0f; // Reseta o contador
+                // Incrementa o tempo desde o último arremesso
+                timeSinceThrow += Time.deltaTime;
+
+                // Após 1 segundo, define isThrowing como false
+                if (timeSinceThrow >= 1f)
+                {
+                    isThrowing = false;
+                    playerStateMachine.SwitchState(playerStateMachine.idleState);
+                    timeSinceThrow = 0f; // Reseta o contador
+                }
+            }
+
+            // Se o persongaem está no estado TakeDamage, não atualiza o movimento
+            if (playerStateMachine.currentState is TakeDamageState)
+            {
+                movementInput = Vector3.zero;
+                isIdle = true;
+                isMoving = false;
+                return;
+            }
+
+            // Converte a entrada do movimento apara um vetor 3D
+            movementInput = new Vector3(moveInput.x, 0, moveInput.y);
+
+            // Atualiza os estados de Movimento com base na entrada do Jogador
+            if (movementInput != Vector3.zero)
+            {
+                // O Jogador está em movimento
+                isIdle = false;
+                isMoving = true;
+
+                // Atualiza a última direção que o personagem está a olhar
+                lastFacingDirection = movementInput.normalized;
+            }
+            else
+            {
+                // O Jogador está parado
+                isIdle = true;
+                isMoving = false;
             }
         }
 
-        // Se o persongaem está no estado TakeDamage, não atualiza o movimento
-        if (playerStateMachine.currentState is TakeDamageState)
+        if (GameManager.gameManager.State == GameState.GameEnd)
         {
-            movementInput = Vector3.zero;
-            isIdle = true;
-            isMoving = false;
-            return;
-        }
 
-        // Converte a entrada do movimento apara um vetor 3D
-        movementInput = new Vector3(moveInput.x, 0, moveInput.y);
+            if (GameManager.gameManager.GetWinner() == null && check == true)
+            {
+                animator.SetTrigger("TrLose");
+                check = false;
+            }
 
-        // Atualiza os estados de Movimento com base na entrada do Jogador
-        if (movementInput != Vector3.zero)
-        {
-            // O Jogador está em movimento
-            isIdle = false;
-            isMoving = true;
-
-            // Atualiza a última direção que o personagem está a olhar
-            lastFacingDirection = movementInput.normalized;
+            if (GameManager.gameManager.GetWinner()["PlayerID"] == playerID && check == true)
+            {
+                animator.SetTrigger("TrWin");
+                check = false;
+            }
+            else if (GameManager.gameManager.GetWinner()["PlayerID"] != playerID && check == true)
+            {
+                animator.SetTrigger("TrLose");
+                check = false;
+            }
         }
-        else
-        {
-            // O Jogador está parado
-            isIdle = true;
-            isMoving = false;
-        }
-
-        if (GameManager.gameManager.State == GameState.GameEnd && GameManager.gameManager.GetWinner()["PlayerID"] == playerID && check == true)
-        {
-            animator.SetTrigger("TrWin");
-            check = false;
-        } 
-        else if (GameManager.gameManager.State == GameState.GameEnd && check == true)
-        {
-            animator.SetTrigger("TrLose");
-            check = false;
-        }
+        
     }
 
     private void FixedUpdate()
     {
-        // Se o personagem está no esdo de TakeDamage, não precisa de se movimentar
-        if (playerStateMachine.currentState is TakeDamageState)
+        if(GameManager.gameManager.State == GameState.InGame)
         {
-            return;
-        }
+            // Se o personagem está no esdo de TakeDamage, não precisa de se movimentar
+            if (playerStateMachine.currentState is TakeDamageState)
+            {
+                return;
+            }
 
-        // O movimento do Jogador é processado somente quando ele se está a mover
-        if (isMoving)
-        {
-            MovePlayer(); // Move o Jogador
-        }
+            // O movimento do Jogador é processado somente quando ele se está a mover
+            if (isMoving)
+            {
+                MovePlayer(); // Move o Jogador
+            }
 
-        RotatePlayer(); // Atualiza a rotação do Personagem
+            RotatePlayer(); // Atualiza a rotação do Personagem
+        }
     }
 
     // Função que realiza o movimento do jogador e aplica as suas restrições
