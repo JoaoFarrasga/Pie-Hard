@@ -23,5 +23,8 @@ public class GameEndUI : MonoBehaviour
     }
 
     private void GoToMainMenu() { GameManager.gameManager.UpdateGameState(GameState.InitialScreen); }
-    private void RestartGame() { GameManager.gameManager.UpdateGameState(GameState.GameStart); }
+    private void RestartGame() 
+    { 
+        GameManager.gameManager.UpdateGameState(GameState.GameStart); 
+    }
 }

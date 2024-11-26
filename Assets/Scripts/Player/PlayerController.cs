@@ -69,24 +69,28 @@ public class PlayerController : MonoBehaviour
 
     private void ThrowObject()
     {
-        foreach (GameObject go in handsList)
+        if(GameManager.gameManager.State == GameState.InGame)
         {
-            if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
+            foreach (GameObject go in handsList)
+            {
+                if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
 
-            isThrowing = true;
+                isThrowing = true;
 
-            Transform projectile = go.transform.GetChild(0); // Gets the first Child of the Object
-            // Gives movement to the projectile
+                Transform projectile = go.transform.GetChild(0); // Gets the first Child of the Object
+                                                                 // Gives movement to the projectile
 
-            playerStateMachine.SwitchState(playerStateMachine.throwState);
-            projectile.GetComponent<Rigidbody>().isKinematic = false;
-            projectile.GetComponent<Rigidbody>().useGravity = true;
-            projectile.GetComponent<Projectile>().GetRigidBodyComponent().linearVelocity = lastFacingDirection * projectile.GetComponent<Projectile>().GetSpeed();
-            projectile.transform.parent = null; // Makes the Child without Parent
-            go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
-            handsOcupied--;
-            return;
+                playerStateMachine.SwitchState(playerStateMachine.throwState);
+                projectile.GetComponent<Rigidbody>().isKinematic = false;
+                projectile.GetComponent<Rigidbody>().useGravity = true;
+                projectile.GetComponent<Projectile>().GetRigidBodyComponent().linearVelocity = lastFacingDirection * projectile.GetComponent<Projectile>().GetSpeed();
+                projectile.transform.parent = null; // Makes the Child without Parent
+                go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
+                handsOcupied--;
+                return;
+            }
         }
+        
     }
 
     public int GetID() { return playerID; } // Gets Player Id
@@ -187,7 +191,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (GameManager.gameManager.State == GameState.GameEnd)
+        if (GameManager.gameManager.State == GameState.ShowResults)
         {
 
             if (GameManager.gameManager.GetWinner() == null && check == true)

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MeteorManager : MonoBehaviour
 {
@@ -9,13 +10,13 @@ public class MeteorManager : MonoBehaviour
     public float respawnDelay = 2f;        // Tempo de espera para respawnar meteoros
     public GameObject spawnEffect;         // Efeito visual ao spawnar (opcional)
 
-    private GameObject[] activeMeteors;    // Meteoros ativos em cada posição
-    private bool gameStarted = false;      // Indica se o jogo já começou
+    [SerializeField] private List<GameObject> activeMeteors = new();    // Meteoros ativos em cada posição
+    [SerializeField] private bool gameStarted = false;      // Indica se o jogo já começou
 
     void Start()
     {
         // Inicializa o array de meteoros ativos
-        activeMeteors = new GameObject[spawnPositions.Length];
+        //activeMeteors = new GameObject[spawnPositions.Count];
     }
 
     void Update()
@@ -23,12 +24,19 @@ public class MeteorManager : MonoBehaviour
         if (!gameStarted) return; // Só executa se o jogo começou
 
         // Verifica se um meteoro foi removido e respawna
-        for (int i = 0; i < activeMeteors.Length; i++)
+        for (int i = 0; i < activeMeteors.Count; i++)
         {
             if (activeMeteors[i] == null)
             {
                 StartCoroutine(RespawnMeteor(i));
             }
+        }
+
+        if (GameManager.gameManager.State == GameState.GameEnd)
+        {
+            gameStarted = false;
+            foreach (GameObject meteor in activeMeteors) Destroy(meteor);
+            activeMeteors.Clear();
         }
     }
 
@@ -69,7 +77,8 @@ public class MeteorManager : MonoBehaviour
         }
 
         // Armazenar o meteoro ativo
-        activeMeteors[index] = meteor;
+        //activeMeteors[index] = meteor;
+        activeMeteors.Insert(index, meteor);
     }
 
     private IEnumerator RespawnMeteor(int index)
@@ -80,6 +89,8 @@ public class MeteorManager : MonoBehaviour
 
         if (activeMeteors[index] == null)
         {
+            activeMeteors.RemoveAt(index);
+            Debug.Log("Respawning");
             SpawnMeteorAt(index);
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,12 +46,14 @@ public class GameManager : MonoBehaviour
             case GameState.InitialScreen:
                 break;
             case GameState.GameStart:
-                StartGame();
+                StartCoroutine(StartGame());
                 break;
             case GameState.InGame:
                 break;
             case GameState.GameEnd:
                 FindWinner();
+                break;
+            case GameState.ShowResults:
                 break;
             case GameState.Pause:
                 break;
@@ -66,8 +69,7 @@ public class GameManager : MonoBehaviour
         if(State == GameState.InGame) time -= Time.deltaTime;// Game Timer
         if(time <= 0)
         {
-            UpdateGameState(GameState.GameEnd);
-            ResetTimer();
+            StartCoroutine(EndGame());
         }
     }
 
@@ -93,10 +95,19 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void StartGame()
+    private IEnumerator StartGame()
     {
         ResetScore();
+        yield return new WaitForSeconds(3f);
         UpdateGameState(GameState.InGame);
+    }
+
+    private IEnumerator EndGame()
+    {
+        UpdateGameState(GameState.GameEnd);
+        yield return new WaitForSeconds(3f);
+        UpdateGameState(GameState.ShowResults);
+        ResetTimer();
     }
 
     private void FindWinner()
@@ -139,5 +150,6 @@ public enum GameState
     GameStart,
     InGame, 
     GameEnd,
+    ShowResults,
     Pause
 }

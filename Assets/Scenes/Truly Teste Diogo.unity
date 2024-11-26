@@ -174,7 +174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4509456190932292958, guid: 223328430b7a486408a0393fce69cfc8, type: 3}
       propertyPath: time
-      value: 5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6601307296404609400, guid: 223328430b7a486408a0393fce69cfc8, type: 3}
       propertyPath: uiGO.Array.size
@@ -224,6 +224,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1091271426280104935, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091271426280104935, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091271426280104935, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1896667696}
+    - target: {fileID: 1091271426280104935, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091271426280104935, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091271426280104935, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MeteorManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091271426280104935, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2913885755550463702, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1517,6 +1545,8 @@ MonoBehaviour:
   - {fileID: 1600246174}
   respawnDelay: 2
   spawnEffect: {fileID: 0}
+  activeMeteors: []
+  gameStarted: 0
 --- !u!1 &2015906579 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2913885755550463702, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
