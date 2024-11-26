@@ -56,9 +56,16 @@ public class PlayerController : MonoBehaviour
 
         plusOne = GetComponentInChildren<ParticleSystem>();
 
+        Debug.Log("1");
         playerInput = GetComponent<PlayerInput>(); // Gets the player input component of this object
+        if (playerInput == null)
+        {
+            Debug.LogError("PlayerInput component not found!");
+        }
         throwProjectile = playerInput.actions.FindAction("Throw"); // Finds the action throw in the input system
+        Debug.Log("3");
         throwProjectile.Enable();
+        Debug.Log("4");
     }
 
     private void OnDisable()
@@ -231,6 +238,7 @@ public class PlayerController : MonoBehaviour
             // O movimento do Jogador é processado somente quando ele se está a mover
             if (isMoving)
             {
+                Debug.Log("Moving Player");
                 MovePlayer(); // Move o Jogador
             }
 
