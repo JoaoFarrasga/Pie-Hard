@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     // Propriedades para serem usadas na Player State Machine
     public bool isIdle { get; private set; } = true;    // Indica que o Jogador esta parado
     public bool isMoving { get; private set; } = false; // Indica se o Jogador está a mover
+    public bool isThrowing { get; private set; } = false;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f; // Velocidade do movimento do Jogador
@@ -24,10 +25,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] int playerID;
     List<GameObject> handsList = new();
+    public int handsOcupied = 0;
 
     [Header("PlayerInput")]
     [SerializeField] PlayerInput playerInput;
     private InputAction throwProjectile;
+
+    private float timeSinceThrow = 0;
 
     private Vector2 moveInput;      // Entrada do Movimento do Jogador (Teclado ou Comando)
     private Rigidbody rb;           // Referência ao Rigidbody
@@ -36,6 +40,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 lastFacingDirection = Vector3.forward; // Direção que o personagem está a "olhar"
 
     private PlayerStateMachine playerStateMachine;
+    private Animator animator;
+    private bool check = true;
 
     private void Awake()
     {
@@ -44,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
         // Obtém a referência para o PlayerStateMachine no mesmo GameObject
         playerStateMachine = GetComponent<PlayerStateMachine>();
+        animator = GetComponent<Animator>();
 
         playerInput = GetComponent<PlayerInput>(); // Gets the player input component of this object
         throwProjectile = playerInput.actions.FindAction("Throw"); // Finds the action throw in the input system
@@ -66,14 +73,18 @@ public class PlayerController : MonoBehaviour
         {
             if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
 
+            isThrowing = true;
+
             Transform projectile = go.GetChild(0); // Gets the first Child of the Object
             // Gives movement to the projectile
 
+            playerStateMachine.SwitchState(playerStateMachine.throwState);
             projectile.GetComponent<Rigidbody>().isKinematic = false;
             projectile.GetComponent<Rigidbody>().useGravity = true;
             projectile.GetComponent<Projectile>().GetRigidBodyComponent().linearVelocity = lastFacingDirection * projectile.GetComponent<Projectile>().GetSpeed();
             projectile.transform.parent = null; // Makes the Child without Parent
             go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
+            handsOcupied--;
             return;
         }
     }
@@ -90,13 +101,16 @@ public class PlayerController : MonoBehaviour
             {
                 foreach (Transform go in gameObject.transform)
                 {
+                    if (go.GetComponent<HandSpaceVerification>() == null) continue;
+
                     if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) // Checks if there are any empty hands left
                     {
                         other.gameObject.transform.parent = go; // Parents the projectile to the hand
                         other.gameObject.transform.localPosition = Vector3.zero;
                         go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Indicates that this hand is not empty now
                         other.gameObject.GetComponent<Projectile>().SetID(playerID);// the projectile gets the same id as the player
-                                                                                    //other.gameObject.GetComponent<Projectile>().GetColliderComponent().isTrigger = false;
+                        //other.gameObject.GetComponent<Projectile>().GetColliderComponent().isTrigger = false;
+                        handsOcupied++;
                         return;
                     }
                 }
@@ -107,8 +121,7 @@ public class PlayerController : MonoBehaviour
                 GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
                 Destroy(other.gameObject);//destroys projectile
             }
-        }
-        
+        }   
     }
 
     // Função chamada pelo sistema de Input do Unity (Quando o jogador fornece entradade movimento)
@@ -127,6 +140,21 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // Verifica se o jogador está no estado de "Throwing"
+        if (isThrowing)
+        {
+            // Incrementa o tempo desde o último arremesso
+            timeSinceThrow += Time.deltaTime;
+
+            // Após 1 segundo, define isThrowing como false
+            if (timeSinceThrow >= 1f)
+            {
+                isThrowing = false;
+                playerStateMachine.SwitchState(playerStateMachine.idleState);
+                timeSinceThrow = 0f; // Reseta o contador
+            }
+        }
+
         // Se o persongaem está no estado TakeDamage, não atualiza o movimento
         if (playerStateMachine.currentState is TakeDamageState)
         {
@@ -154,6 +182,17 @@ public class PlayerController : MonoBehaviour
             // O Jogador está parado
             isIdle = true;
             isMoving = false;
+        }
+
+        if (GameManager.gameManager.State == GameState.GameEnd && GameManager.gameManager.GetWinner()["PlayerID"] == playerID && check == true)
+        {
+            animator.SetTrigger("TrWin");
+            check = false;
+        } 
+        else if (GameManager.gameManager.State == GameState.GameEnd && check == true)
+        {
+            animator.SetTrigger("TrLose");
+            check = false;
         }
     }
 

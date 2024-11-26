@@ -5,6 +5,7 @@ public class PlayerStateMachine : MonoBehaviour
 {
     // Referência ao Controlador do Jogador, onde se encontra a lógica do Movimento
     [HideInInspector] public PlayerController controller;
+    [HideInInspector] public Animator animator;
 
     // Estado atual em que o Jogador se encontra
     public PlayerState currentState;
@@ -23,10 +24,14 @@ public class PlayerStateMachine : MonoBehaviour
     {
         // Obtém o componente PlayerController do Jogador
         controller = gameObject.GetComponent<PlayerController>();
+        animator = gameObject.GetComponent<Animator>();
 
         // Cria as instâncias dos estados
         movingState = new MovingState(this);
         idleState = new IdleState(this);
+        pickUpState = new PickUpState(this);
+        throwState = new ThrowState(this);
+        takeDamageState = new TakeDamageState(this);
 
         // Inicializa o estado inicial do Jogador
         SwitchState(idleState);

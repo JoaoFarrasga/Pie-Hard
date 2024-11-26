@@ -1,3 +1,4 @@
+using Unity.Jobs;
 using UnityEngine;
 
 // Classe abstrata que define a estrutura básica de um estado do Jogador
@@ -6,7 +7,7 @@ public abstract class PlayerState
     // Referência à máquina de estados do Jogador
     protected PlayerStateMachine playerStateMachine;
 
-    // ReferÊncia ao controlador do Jogador
+    // Referência ao controlador do Jogador
     protected PlayerController playerController;
 
     // Constrututor que inicializa as referências à máquina de estados e ao controlador
@@ -30,7 +31,13 @@ public class MovingState : PlayerState
 
     public override void OnEnter()
     {
-        
+        if (playerStateMachine.animator != null)
+        {
+            if (playerController.handsOcupied > 0)
+                playerStateMachine.animator.SetTrigger("TrRun2");
+            else
+                playerStateMachine.animator.SetTrigger("TrRun");
+        }
     }
 
     public override void OnUpdate()
@@ -54,7 +61,9 @@ public class IdleState : PlayerState
 
     public override void OnEnter()
     {
-            
+        if (playerStateMachine.animator != null)
+            playerStateMachine.animator.SetTrigger("TrIdle");
+
     }
 
     public override void OnUpdate()
@@ -100,12 +109,20 @@ public class ThrowState : PlayerState
 
     public override void OnEnter()
     {
-
+        if(playerStateMachine.animator != null)
+        {
+            if (playerController.handsOcupied == 2)
+                playerStateMachine.animator.SetTrigger("TrThrow2");
+            else
+            {
+                playerStateMachine.animator.SetTrigger("TrThrow");
+            }
+        }
     }
 
     public override void OnUpdate()
     {
-        
+
     }
 
     public override void OnExit()
