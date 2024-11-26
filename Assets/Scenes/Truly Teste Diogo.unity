@@ -174,7 +174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4509456190932292958, guid: 223328430b7a486408a0393fce69cfc8, type: 3}
       propertyPath: time
-      value: 15
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6601307296404609400, guid: 223328430b7a486408a0393fce69cfc8, type: 3}
       propertyPath: uiGO.Array.size
@@ -2502,6 +2502,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.016
       objectReference: {fileID: 0}
+    - target: {fileID: 2271486571068889440, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2495994740888759768, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -2551,6 +2555,22 @@ PrefabInstance:
       value: Player 2
       objectReference: {fileID: 0}
     - target: {fileID: 5248609282243125755, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
+      propertyPath: floatingTextPrefab
+      value: 
+      objectReference: {fileID: 5872203682969086146, guid: 3e797d87d7b81d64ba50555848431908, type: 3}
+    - target: {fileID: 5248609282243125755, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
+      propertyPath: floatingTextColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248609282243125755, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
+      propertyPath: floatingTextColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248609282243125755, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
+      propertyPath: floatingTextColor.g
+      value: 0.7254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248609282243125755, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
       propertyPath: handsList.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -2575,7 +2595,8 @@ PrefabInstance:
       value: 0.021
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2271486571068889440, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
@@ -2587,6 +2608,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2684218522842643556, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
+      propertyPath: floatingTextPrefab
+      value: 
+      objectReference: {fileID: 5872203682969086146, guid: 3e797d87d7b81d64ba50555848431908, type: 3}
+    - target: {fileID: 2684218522842643556, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
+      propertyPath: floatingTextColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684218522842643556, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
+      propertyPath: floatingTextColor.b
+      value: 0.40392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684218522842643556, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
+      propertyPath: floatingTextColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2684218522842643556, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
       propertyPath: handsList.Array.size
       value: 2
@@ -2659,6 +2696,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: f8c0f05d08a0ca34d9d0862bc2517614, type: 2}
+    - target: {fileID: 8196255489208321610, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8292608119387379439, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.038
@@ -2672,7 +2713,8 @@ PrefabInstance:
       value: 0.033
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8196255489208321610, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 // Controlador principal para o movimento do Jogador
 public class PlayerController : MonoBehaviour
@@ -43,7 +44,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private bool check = true;
 
-    private ParticleSystem plusOne;
+    [SerializeField] private GameObject floatingTextPrefab;
+    [SerializeField] private Color floatingTextColor;
 
     private void Awake()
     {
@@ -53,8 +55,6 @@ public class PlayerController : MonoBehaviour
         // Obtém a referência para o PlayerStateMachine no mesmo GameObject
         playerStateMachine = GetComponent<PlayerStateMachine>();
         animator = GetComponent<Animator>();
-
-        plusOne = GetComponentInChildren<ParticleSystem>();
 
         playerInput = GetComponent<PlayerInput>(); // Gets the player input component of this object
         throwProjectile = playerInput.actions.FindAction("Throw"); // Finds the action throw in the input system
@@ -125,9 +125,16 @@ public class PlayerController : MonoBehaviour
             }
             else if (other.gameObject.GetComponent<Projectile>().GetID() != playerID)
             {
+                //Instantiate +1 in the game
+                Vector3 offSet = new Vector3(0, 2.5f, 0);
+                GameObject go = Instantiate(floatingTextPrefab, gameObject.transform.position, Quaternion.identity);
+                go.transform.parent = gameObject.transform;
+                go.transform.localPosition += offSet;
+                floatingTextPrefab.GetComponent<TextMeshPro>().color = floatingTextColor;
+
                 GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
                 Destroy(other.gameObject);//destroys projectile
-                plusOne.Play();
+                Destroy(go);
             }
         }   
     }
