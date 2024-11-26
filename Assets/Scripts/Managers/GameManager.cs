@@ -62,7 +62,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+<<<<<<< Updated upstream
         if(State == GameState.InGame) time -= Time.deltaTime; // Game Timer
+=======
+        if(State == GameState.InGame) time -= Time.deltaTime;// Game Timer
+        if(time <= 0) StartCoroutine(EndGame());
+>>>>>>> Stashed changes
     }
 
     //Add the exact number of player to the dictionary to store the score and player ID's
@@ -87,6 +92,38 @@ public class GameManager : MonoBehaviour
 
     }
 
+<<<<<<< Updated upstream
+=======
+    private IEnumerator StartGame()
+    {
+        ResetScore();
+        yield return new WaitForSeconds(3f);
+        UpdateGameState(GameState.InGame);
+    }
+
+    private IEnumerator EndGame()
+    {
+        ResetTimer();
+        UpdateGameState(GameState.GameEnd);
+        yield return new WaitForSeconds(3f);
+        UpdateGameState(GameState.ShowResults);
+    }
+
+    private void FindWinner()
+    {
+        int points = 0;
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i]["PlayerScore"] > points)
+            {
+                points = players[i]["PlayerScore"];
+                winner = players[i];
+            }
+            else if (players[i]["PlayerScore"] == points) winner = null;
+        }
+    }
+
+>>>>>>> Stashed changes
     //returns dictionary with player info
     public List<Dictionary<string, int>> GetPlayerInfo() {  return players; }
 

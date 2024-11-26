@@ -100,12 +100,21 @@ public class PlayerController : MonoBehaviour
                     return;
                 }
             }
+<<<<<<< Updated upstream
         }
         else
         {
             GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
             Destroy(other.gameObject);//destroys projectile
         }
+=======
+            else if (other.gameObject.GetComponent<Projectile>().GetID() != playerID)
+            {
+                GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
+                Destroy(other.gameObject);//destroys projectile
+            }
+        }   
+>>>>>>> Stashed changes
     }
 
     // Função chamada pelo sistema de Input do Unity (Quando o jogador fornece entradade movimento)
@@ -143,6 +152,7 @@ public class PlayerController : MonoBehaviour
             isIdle = false;
             isMoving = true;
 
+<<<<<<< Updated upstream
             // Atualiza a última direção que o personagem está a olhar
             lastFacingDirection = movementInput.normalized;
         }
@@ -151,6 +161,24 @@ public class PlayerController : MonoBehaviour
             // O Jogador está parado
             isIdle = true;
             isMoving = false;
+=======
+            if (GameManager.gameManager.GetWinner() == null)
+            {
+                animator.SetTrigger("TrLose");
+                return;
+            }
+
+            else if (GameManager.gameManager.GetWinner()["PlayerID"] == playerID && check == true)
+            {
+                animator.SetTrigger("TrWin");
+                check = false;
+            }
+            else if (GameManager.gameManager.GetWinner()["PlayerID"] != playerID && check == true)
+            {
+                animator.SetTrigger("TrLose");
+                check = false;
+            }
+>>>>>>> Stashed changes
         }
     }
 
