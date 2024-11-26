@@ -166,7 +166,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  fallSpeed: 10
+  fallSpeed: 15
+  spawnSound: {fileID: 8300000, guid: 220370dec97e935478f1db20dab909f7, type: 3}
+  explosionSound: {fileID: 8300000, guid: 6f85fa30c146a6a498c1fca369f45a4d, type: 3}
+  spawnSoundVolume: 0.03
+  explosionSoundVolume: 0.01
+  smokeEffect: {fileID: 4411009182107902544, guid: 88123293c55d5cc4bb59288f1f7ddfd3, type: 3}
+  groundDamagePrefab: {fileID: 9135075546079093531, guid: 728284126eec75a46b4d2b0d6e927e3d, type: 3}
 --- !u!1001 &9170412576630401150
 PrefabInstance:
   m_ObjectHideFlags: 0
