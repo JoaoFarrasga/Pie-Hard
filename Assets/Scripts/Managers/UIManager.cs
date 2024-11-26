@@ -23,17 +23,18 @@ public class UIManager : MonoBehaviour
 
     private void OnGameStateUIChanged(GameState gameState)
     {
+        Debug.Log("ChangingUI To: " + gameState);
         switch (gameState)
         {
             case GameState.InitialScreen:
-                DisableUIGO();
+                DisableAllUI();
                 EnableUIGO(0);
                 break;
             case GameState.GameStart:
-                Debug.Log(currentUI);
                 DisableUIGO();
                 break;
             case GameState.InGame:
+                if(currentUI.activeSelf) DisableUIGO();
                 EnableUIGO(1);
                 break;
             case GameState.GameEnd:
@@ -53,12 +54,19 @@ public class UIManager : MonoBehaviour
     }
 
     //Enables Current UI GameObjects
-    public void EnableUIGO(int ui) //Changes ui according to the game state
+    private void EnableUIGO(int ui) //Changes ui according to the game state
     {
         currentUI = uiGO[ui];
         currentUI.SetActive(true);
     }
 
     //Disables Current UI GameObjects
-    public void DisableUIGO() { currentUI.SetActive(false); } //Disables current ui
+    private void DisableUIGO() { currentUI.SetActive(false); } //Disables current ui
+
+    private void DisableAllUI()
+    {
+        foreach(GameObject ui in uiGO) { ui.SetActive(false); }
+    }
+
+
 }

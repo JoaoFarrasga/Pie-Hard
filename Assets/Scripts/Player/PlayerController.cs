@@ -121,7 +121,6 @@ public class PlayerController : MonoBehaviour
             }
             else if (other.gameObject.GetComponent<Projectile>().GetID() != playerID)
             {
-                Debug.Log(other);
                 GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
                 Destroy(other.gameObject);//destroys projectile
             }
@@ -194,13 +193,13 @@ public class PlayerController : MonoBehaviour
         if (GameManager.gameManager.State == GameState.ShowResults)
         {
 
-            if (GameManager.gameManager.GetWinner() == null && check == true)
+            if (GameManager.gameManager.GetWinner() == null)
             {
                 animator.SetTrigger("TrLose");
-                check = false;
+                return;
             }
 
-            if (GameManager.gameManager.GetWinner()["PlayerID"] == playerID && check == true)
+            else if (GameManager.gameManager.GetWinner()["PlayerID"] == playerID && check == true)
             {
                 animator.SetTrigger("TrWin");
                 check = false;

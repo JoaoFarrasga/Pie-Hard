@@ -15,7 +15,11 @@ public class PauseScreenUI : MonoBehaviour
 
     private void ResumeGame() { GameManager.gameManager.UpdateGameState(GameState.InGame); }
 
-    private void BackToMainMenu() { GameManager.gameManager.UpdateGameState(GameState.InitialScreen); }
+    private void BackToMainMenu() 
+    { 
+        GameManager.gameManager.UpdateGameState(GameState.InitialScreen);
+        GameManager.gameManager.ResetTimer();
+    }
 
     private void QuitGame() { Application.Quit(); }
 }

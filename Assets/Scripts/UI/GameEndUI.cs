@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class GameEndUI : MonoBehaviour
 {
+    [SerializeField] GameObject countDownUI;
 
     [Header("UiButton")]
     [SerializeField] Button mainMenu;
@@ -12,7 +13,7 @@ public class GameEndUI : MonoBehaviour
     private void Start()
     {
         mainMenu.onClick.AddListener(GoToMainMenu);
-        restartBtn.onClick.AddListener(RestartGame);//Button to pause game
+        restartBtn.onClick.AddListener(RestartGame);//Button to Restart game
     }
 
     private void OnEnable()
@@ -25,6 +26,7 @@ public class GameEndUI : MonoBehaviour
     private void GoToMainMenu() { GameManager.gameManager.UpdateGameState(GameState.InitialScreen); }
     private void RestartGame() 
     { 
-        GameManager.gameManager.UpdateGameState(GameState.GameStart); 
+        GameManager.gameManager.UpdateGameState(GameState.GameStart);
+        countDownUI.SetActive(true);
     }
 }

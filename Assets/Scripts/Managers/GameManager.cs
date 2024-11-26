@@ -67,10 +67,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if(State == GameState.InGame) time -= Time.deltaTime;// Game Timer
-        if(time <= 0)
-        {
-            StartCoroutine(EndGame());
-        }
+        if(time <= 0) StartCoroutine(EndGame());
     }
 
     //Add the exact number of player to the dictionary to store the score and player ID's
@@ -104,10 +101,10 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator EndGame()
     {
+        ResetTimer();
         UpdateGameState(GameState.GameEnd);
         yield return new WaitForSeconds(3f);
         UpdateGameState(GameState.ShowResults);
-        ResetTimer();
     }
 
     private void FindWinner()

@@ -32,7 +32,7 @@ public class MeteorManager : MonoBehaviour
             }
         }
 
-        if (GameManager.gameManager.State == GameState.GameEnd)
+        if (GameManager.gameManager.State == GameState.GameEnd || GameManager.gameManager.State == GameState.InitialScreen)
         {
             gameStarted = false;
             foreach (GameObject meteor in activeMeteors) Destroy(meteor);
@@ -86,13 +86,17 @@ public class MeteorManager : MonoBehaviour
         if (activeMeteors[index] != null) yield break;
 
         yield return new WaitForSeconds(respawnDelay);
-
-        if (activeMeteors[index] == null)
+        
+        if(activeMeteors.Count != 0)
         {
-            activeMeteors.RemoveAt(index);
-            Debug.Log("Respawning");
-            SpawnMeteorAt(index);
+            if (activeMeteors[index] == null)
+            {
+                activeMeteors.RemoveAt(index);
+                Debug.Log("Respawning");
+                SpawnMeteorAt(index);
+            }
         }
+        
     }
 
     private Vector3 GetRandomPositionOnPlane()
