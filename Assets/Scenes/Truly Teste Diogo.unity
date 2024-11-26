@@ -613,6 +613,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -725
       objectReference: {fileID: 0}
+    - target: {fileID: 700705045605790532, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 700705045605790532, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 700705045605790532, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 700705045605790532, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -225
+      objectReference: {fileID: 0}
     - target: {fileID: 909481839634533768, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
       propertyPath: timeText
       value: 
@@ -681,6 +697,22 @@ PrefabInstance:
       propertyPath: countDownUI
       value: 
       objectReference: {fileID: 1163236060}
+    - target: {fileID: 1366424106537060284, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1366424106537060284, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1366424106537060284, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1366424106537060284, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2037656621983625857, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 100
@@ -896,6 +928,22 @@ PrefabInstance:
     - target: {fileID: 3484594667079211786, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486646178904236000, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486646178904236000, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486646178904236000, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486646178904236000, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 225
       objectReference: {fileID: 0}
     - target: {fileID: 3905699344489020837, guid: f65cfc770184d0040ab69f64a1979c2d, type: 3}
       propertyPath: m_Type
@@ -3953,6 +4001,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5074571736753179329, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: b7a8e7d125e669b409fa6426ec334446, type: 3}
     - target: {fileID: 5248609282243125755, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
       propertyPath: handsList.Array.size
       value: 2
@@ -4086,6 +4138,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.033
       objectReference: {fileID: 0}
+    - target: {fileID: 9172995510388116617, guid: f82c73da9a0aa034ea63773f6d659b3b, type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 4a8c826a908f5c640b3f6234cc5ebbda, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
