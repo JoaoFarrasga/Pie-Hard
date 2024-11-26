@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private bool check = true;
 
+    private ParticleSystem plusOne;
+
     private void Awake()
     {
         // Inicializa a referência ao Rigidbody
@@ -51,6 +53,8 @@ public class PlayerController : MonoBehaviour
         // Obtém a referência para o PlayerStateMachine no mesmo GameObject
         playerStateMachine = GetComponent<PlayerStateMachine>();
         animator = GetComponent<Animator>();
+
+        plusOne = GetComponentInChildren<ParticleSystem>();
 
         playerInput = GetComponent<PlayerInput>(); // Gets the player input component of this object
         throwProjectile = playerInput.actions.FindAction("Throw"); // Finds the action throw in the input system
@@ -123,6 +127,7 @@ public class PlayerController : MonoBehaviour
             {
                 GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
                 Destroy(other.gameObject);//destroys projectile
+                plusOne.Play();
             }
         }   
     }
