@@ -82,16 +82,12 @@ public class PlayerController : MonoBehaviour
 
     public void ThrowObject()
     {
-        Debug.Log("1");
         if(GameManager.gameManager.State == GameState.InGame)
         {
-            Debug.Log("2");
             for (int i = handsOcupied; i > 0; i--)
             {
-                Debug.Log("3");
                 if (handsList[i - 1].GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
 
-                Debug.Log("4");
                 Transform projectile = handsList[i - 1].transform.GetChild(0); // Gets the first Child of the Object
                                                                  // Gives movement to the projectile
                 projectile.GetComponent<Rigidbody>().isKinematic = false;
@@ -213,6 +209,7 @@ public class PlayerController : MonoBehaviour
 
         if (GameManager.gameManager.State == GameState.ShowResults)
         {
+            handsOcupied = 0;
 
             if (GameManager.gameManager.GetWinner() == null)
             {
