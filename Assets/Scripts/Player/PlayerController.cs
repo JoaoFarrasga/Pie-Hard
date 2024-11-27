@@ -68,28 +68,34 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        throwProjectile.started += i => ThrowObject(); // Stats the action throw when clicked on Throw Key
+        throwProjectile.started += i => ThrowStateSwitch(); // Stats the action throw when clicked on Throw Key
     }
 
-    private void ThrowObject()
+    private void ThrowStateSwitch() 
+    {
+        if (handsOcupied != 0 && !isThrowing)
+        {
+            playerStateMachine.SwitchState(playerStateMachine.throwState);
+            isThrowing = true;
+        }    
+    }
+
+    public void ThrowObject()
     {
         if(GameManager.gameManager.State == GameState.InGame)
         {
-            foreach (GameObject go in handsList)
+            for(int i = handsOcupied; i > 0; i--)
             {
-                if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
 
-                isThrowing = true;
+                if (handsList[i - 1].GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
 
-                Transform projectile = go.transform.GetChild(0); // Gets the first Child of the Object
+                Transform projectile = handsList[i - 1].transform.GetChild(0); // Gets the first Child of the Object
                                                                  // Gives movement to the projectile
-
-                playerStateMachine.SwitchState(playerStateMachine.throwState);
                 projectile.GetComponent<Rigidbody>().isKinematic = false;
                 projectile.GetComponent<Rigidbody>().useGravity = true;
                 projectile.GetComponent<Projectile>().GetRigidBodyComponent().linearVelocity = lastFacingDirection * projectile.GetComponent<Projectile>().GetSpeed();
                 projectile.transform.parent = null; // Makes the Child without Parent
-                go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
+                handsList[i - 1].GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
                 handsOcupied--;
                 return;
             }
