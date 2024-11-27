@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 // Controlador principal para o movimento do Jogador
 public class PlayerController : MonoBehaviour
@@ -43,7 +44,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private bool check = true;
 
-    private ParticleSystem plusOne;
+    [SerializeField] private GameObject floatingTextPrefab;
+    [SerializeField] private Color floatingTextColor;
 
     private void Awake()
     {
@@ -54,18 +56,9 @@ public class PlayerController : MonoBehaviour
         playerStateMachine = GetComponent<PlayerStateMachine>();
         animator = GetComponent<Animator>();
 
-        plusOne = GetComponentInChildren<ParticleSystem>();
-
-        Debug.Log("1");
         playerInput = GetComponent<PlayerInput>(); // Gets the player input component of this object
-        if (playerInput == null)
-        {
-            Debug.LogError("PlayerInput component not found!");
-        }
         throwProjectile = playerInput.actions.FindAction("Throw"); // Finds the action throw in the input system
-        Debug.Log("3");
         throwProjectile.Enable();
-        Debug.Log("4");
     }
 
     private void OnDisable()
@@ -75,28 +68,34 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        throwProjectile.started += i => ThrowObject(); // Stats the action throw when clicked on Throw Key
+        throwProjectile.started += i => ThrowStateSwitch(); // Stats the action throw when clicked on Throw Key
     }
 
-    private void ThrowObject()
+    private void ThrowStateSwitch() 
+    {
+        if (handsOcupied != 0 && !isThrowing)
+        {
+            playerStateMachine.SwitchState(playerStateMachine.throwState);
+            isThrowing = true;
+        }    
+    }
+
+    public void ThrowObject()
     {
         if(GameManager.gameManager.State == GameState.InGame)
         {
-            foreach (GameObject go in handsList)
+            for(int i = handsOcupied; i > 0; i--)
             {
-                if (go.GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
 
-                isThrowing = true;
+                if (handsList[i - 1].GetComponent<HandSpaceVerification>().VerifySpaceState()) continue; // Verifies if is empty or not, if is empty do not throw anything and goes to other child
 
-                Transform projectile = go.transform.GetChild(0); // Gets the first Child of the Object
+                Transform projectile = handsList[i - 1].transform.GetChild(0); // Gets the first Child of the Object
                                                                  // Gives movement to the projectile
-
-                playerStateMachine.SwitchState(playerStateMachine.throwState);
                 projectile.GetComponent<Rigidbody>().isKinematic = false;
                 projectile.GetComponent<Rigidbody>().useGravity = true;
                 projectile.GetComponent<Projectile>().GetRigidBodyComponent().linearVelocity = lastFacingDirection * projectile.GetComponent<Projectile>().GetSpeed();
                 projectile.transform.parent = null; // Makes the Child without Parent
-                go.GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
+                handsList[i - 1].GetComponent<HandSpaceVerification>().ChangeSpaceState(); // Changes the hand Space to empty
                 handsOcupied--;
                 return;
             }
@@ -132,9 +131,16 @@ public class PlayerController : MonoBehaviour
             }
             else if (other.gameObject.GetComponent<Projectile>().GetID() != playerID)
             {
+                //Instantiate +1 in the game
+                Vector3 offSet = new Vector3(0, 2.5f, 0);
+                GameObject go = Instantiate(floatingTextPrefab, gameObject.transform.position, Quaternion.identity);
+                go.transform.parent = gameObject.transform;
+                go.transform.localPosition += offSet;
+                floatingTextPrefab.GetComponent<TextMeshPro>().color = floatingTextColor;
+
                 GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
                 Destroy(other.gameObject);//destroys projectile
-                plusOne.Play();
+                Destroy(go);
             }
         }   
     }
@@ -238,7 +244,6 @@ public class PlayerController : MonoBehaviour
             // O movimento do Jogador é processado somente quando ele se está a mover
             if (isMoving)
             {
-                Debug.Log("Moving Player");
                 MovePlayer(); // Move o Jogador
             }
 
