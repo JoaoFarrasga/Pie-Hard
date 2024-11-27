@@ -111,6 +111,6 @@ public class MeteorBehavior : MonoBehaviour
             Instantiate(groundDamagePrefab, transform.position, Quaternion.Euler(90, 0, 0)); // Rotação para alinhar ao chão
         }
 
-        Debug.Log("Meteoro aterrou, marca criada no chão.");
+
     }
 }
