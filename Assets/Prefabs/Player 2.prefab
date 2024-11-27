@@ -99,6 +99,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c0cfdbcede8d8f741b6a9f50c2c7662b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c0cfdbcede8d8f741b6a9f50c2c7662b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c0cfdbcede8d8f741b6a9f50c2c7662b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c0cfdbcede8d8f741b6a9f50c2c7662b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
       objectReference: {fileID: 0}
@@ -298,17 +310,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125207f926a25ed41892b49e36e91e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  minBounds: {x: -10, y: -10}
-  maxBounds: {x: 10, y: 10}
+  moveSpeed: 7.5
+  minBounds: {x: -20, y: -10}
+  maxBounds: {x: 20, y: 10}
   isPlayerOnLeftSide: 0
   fieldBoundaryOffSet: 1
   playerID: 2
   handsList: []
-  handsOcupied: 0
+  handsOcupied: 1
   playerInput: {fileID: 0}
-  floatingTextPrefab: {fileID: 0}
-  floatingTextColor: {r: 0, g: 0, b: 0, a: 0}
+  floatingTextPrefab: {fileID: 5872203682969086146, guid: 3e797d87d7b81d64ba50555848431908, type: 3}
+  floatingTextColor: {r: 1, g: 1, b: 1, a: 0}
 --- !u!114 &6495697703055293474
 MonoBehaviour:
   m_ObjectHideFlags: 0
