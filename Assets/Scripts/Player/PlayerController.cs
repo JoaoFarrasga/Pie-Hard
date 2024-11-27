@@ -139,11 +139,10 @@ public class PlayerController : MonoBehaviour
                 GameObject go = Instantiate(floatingTextPrefab, gameObject.transform.position, Quaternion.identity);
                 go.transform.parent = gameObject.transform;
                 go.transform.localPosition += offSet;
-                floatingTextPrefab.GetComponent<TextMeshPro>().color = floatingTextColor;
+                go.GetComponent<TextMeshPro>().color = floatingTextColor;
 
                 GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
                 Destroy(other.gameObject);//destroys projectile
-                Destroy(go);
             }
         }   
     }
