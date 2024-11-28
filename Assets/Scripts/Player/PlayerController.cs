@@ -213,6 +213,7 @@ public class PlayerController : MonoBehaviour
 
         if (GameManager.gameManager.State == GameState.ShowResults)
         {
+            handsOcupied = 0;
 
             if (GameManager.gameManager.GetWinner() == null)
             {

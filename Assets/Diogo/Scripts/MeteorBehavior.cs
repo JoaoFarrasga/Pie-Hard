@@ -115,8 +115,6 @@ public class MeteorBehavior : MonoBehaviour
         }
 
         smokeInTrip.GetComponent<ParticleSystem>().Stop();
-
-        Debug.Log("Meteoro aterrou, marca criada no chão.");
     }
 
     private GameObject InstantiateSmoke()

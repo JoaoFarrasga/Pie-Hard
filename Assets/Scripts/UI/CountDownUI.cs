@@ -29,7 +29,6 @@ public class CountDownUI : MonoBehaviour
 
     private void IncreaseUIScaleCountDown()
     {
-        Debug.Log("CountDown");
         Vector3 temp = countDown.rectTransform.localScale;
 
         if (temp.x >= 1f)

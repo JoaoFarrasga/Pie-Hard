@@ -1,20 +1,20 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
-
+using Mono.Cecil.Cil;
 
 public class MeteorManager : MonoBehaviour
 {
     public GameObject objectToSpawn;        // Prefab do meteoro
-    public GameObject spawnPlane;          // Plano invisível para spawnar meteoros
-    public Transform[] spawnPositions;     // Posições predefinidas na arena
+    public GameObject spawnPlane;          // Plano invisï¿½vel para spawnar meteoros
+    public Transform[] spawnPositions;     // Posiï¿½ï¿½es predefinidas na arena
     public float respawnDelay = 2f;        // Tempo de espera para respawnar meteoros
     public GameObject spawnEffect;         // Efeito visual ao spawnar (opcional)
 
-    [SerializeField] private List<GameObject> activeMeteors = new();    // Meteoros ativos em cada posição
-    [SerializeField] private bool gameStarted = false;      // Indica se o jogo já começou
+    [SerializeField] private List<GameObject> activeMeteors = new();    // Meteoros ativos em cada posiï¿½ï¿½o
+    [SerializeField] private bool gameStarted = false;      // Indica se o jogo jï¿½ comeï¿½ou
 
+    private bool check = false;
     [SerializeField] GameObject breakEffect;
 
     void Start()
@@ -25,7 +25,13 @@ public class MeteorManager : MonoBehaviour
 
     void Update()
     {
-        if (!gameStarted) return; // Só executa se o jogo começou
+        if (GameManager.gameManager.State == GameState.GameStart && check == false)
+        {
+            StartGame();
+            check = true;
+        }
+
+        if (!gameStarted) return; // Sï¿½ executa se o jogo comeï¿½ou
 
         // Verifica se um meteoro foi removido e respawna
         for (int i = 0; i < activeMeteors.Count; i++)
@@ -65,10 +71,10 @@ public class MeteorManager : MonoBehaviour
 
     private void SpawnMeteorAt(int index)
     {
-        // Posição aleatória no plano invisível
+        // Posiï¿½ï¿½o aleatï¿½ria no plano invisï¿½vel
         Vector3 randomSpawnPosition = GetRandomPositionOnPlane();
 
-        // Posição de destino
+        // Posiï¿½ï¿½o de destino
         Transform target = spawnPositions[index];
 
         // Efeito visual no spawn (opcional)
@@ -103,7 +109,6 @@ public class MeteorManager : MonoBehaviour
             if (activeMeteors[index] == null)
             {
                 activeMeteors.RemoveAt(index);
-                Debug.Log("Respawning");
                 SpawnMeteorAt(index);
             }
         }
