@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
-    [SerializeField] GameObject countDownUI;
 
     [Header("UI Buttons")]
     [SerializeField] private Button startGameBtn, settingsBtn, quitGameBtn;
@@ -17,8 +16,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void StartGame() 
     {
-        GameManager.gameManager.UpdateGameState(GameState.GameStart);
-        countDownUI.SetActive(true);
+        GameManager.gameManager.UpdateGameState(GameState.VideoPlayer);
     }
         
     private void SettingsScreen()

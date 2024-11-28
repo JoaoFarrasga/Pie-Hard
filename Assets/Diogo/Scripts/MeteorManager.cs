@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
-
+using Mono.Cecil.Cil;
 
 public class MeteorManager : MonoBehaviour
 {
@@ -15,6 +14,8 @@ public class MeteorManager : MonoBehaviour
     [SerializeField] private List<GameObject> activeMeteors = new();    // Meteoros ativos em cada posição
     [SerializeField] private bool gameStarted = false;      // Indica se o jogo já começou
 
+    private bool check = false;
+
     void Start()
     {
         // Inicializa o array de meteoros ativos
@@ -23,6 +24,12 @@ public class MeteorManager : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.gameManager.State == GameState.GameStart && check == false)
+        {
+            StartGame();
+            check = true;
+        }
+
         if (!gameStarted) return; // Só executa se o jogo começou
 
         // Verifica se um meteoro foi removido e respawna
@@ -94,7 +101,6 @@ public class MeteorManager : MonoBehaviour
             if (activeMeteors[index] == null)
             {
                 activeMeteors.RemoveAt(index);
-                Debug.Log("Respawning");
                 SpawnMeteorAt(index);
             }
         }

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject); // Don't destroy this object when loading new scenes
         }
         else
-        { 
+        {
             Destroy(gameObject);// If an instance already exists, destroy this one
         }
     }
@@ -44,6 +44,9 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.InitialScreen:
+                break;
+            case GameState.VideoPlayer:
+                StartCoroutine(PlayVideoAndSwitchState());
                 break;
             case GameState.GameStart:
                 StartCoroutine(StartGame());
@@ -66,14 +69,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(State == GameState.InGame) time -= Time.deltaTime;// Game Timer
-        if(time <= 0) StartCoroutine(EndGame());
+        if (State == GameState.InGame) time -= Time.deltaTime; // Game Timer
+        if (time <= 0) StartCoroutine(EndGame());
     }
 
-    //Add the exact number of player to the dictionary to store the score and player ID's
-    public void AddPlayers(int numOfPlayers) 
+    // Add the exact number of players to the dictionary to store the score and player IDs
+    public void AddPlayers(int numOfPlayers)
     {
-        for(int i = 0; i < numOfPlayers; i++)
+        for (int i = 0; i < numOfPlayers; i++)
         {
             Dictionary<string, int> player = new();
             player.Add("PlayerID", i + 1);
@@ -82,14 +85,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //Score changes when a projectile hits a player
+    // Score changes when a projectile hits a player
     public void OnScoreChanged(int playerID)
     {
         for (int i = 0; i < players.Count; i++)
         {
-            if(players[i]["PlayerID"] == playerID) players[i]["PlayerScore"]++;
+            if (players[i]["PlayerID"] == playerID) players[i]["PlayerScore"]++;
         }
+    }
 
+    private IEnumerator PlayVideoAndSwitchState()
+    {
+        // Aguarde at� que o v�deo termine (11 segundos neste caso)
+        yield return new WaitForSeconds(11f);
+        UpdateGameState(GameState.GameStart); // Troca para o pr�ximo estado
     }
 
     private IEnumerator StartGame()
@@ -121,16 +130,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //returns dictionary with player info
-    public List<Dictionary<string, int>> GetPlayerInfo() {  return players; }
+    // Returns dictionary with player info
+    public List<Dictionary<string, int>> GetPlayerInfo() { return players; }
 
-    //returns time of the timer
+    // Returns time of the timer
     public double GetTimer() { return time; }
 
-    //Resets the timer
+    // Resets the timer
     public void ResetTimer() { time = 15; }
 
-    //resets the score
+    // Resets the score
     public void ResetScore()
     {
         for (int i = 0; i < players.Count; i++) { players[i]["PlayerScore"] = 0; }
@@ -140,12 +149,13 @@ public class GameManager : MonoBehaviour
 
 }
 
-//States of the game
+// States of the game
 public enum GameState
 {
     InitialScreen,
+    VideoPlayer, // Novo estado
     GameStart,
-    InGame, 
+    InGame,
     GameEnd,
     ShowResults,
     Pause

@@ -20,7 +20,6 @@ public class GameEndUI : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Enabled");
         if (GameManager.gameManager.GetWinner() != null)
         {
             transform.Find("WinnerText").gameObject.GetComponent<TextMeshProUGUI>().text = "Winner";

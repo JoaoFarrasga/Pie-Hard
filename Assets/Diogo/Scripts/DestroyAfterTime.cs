@@ -40,8 +40,6 @@ public class DestroyAfterTime : MonoBehaviour
             mat.material.color = color;
             progress += Time.deltaTime;
 
-            Debug.Log("Fading");
-
             yield return null; // Wait for the next frame
         }
 

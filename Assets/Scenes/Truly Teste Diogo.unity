@@ -4420,6 +4420,14 @@ PrefabInstance:
       value: 0.05345611
       objectReference: {fileID: 0}
     - target: {fileID: 5248609282243125755, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
+      propertyPath: maxBounds.y
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248609282243125755, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
+      propertyPath: minBounds.y
+      value: -17.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248609282243125755, guid: 88f7520239dc77045812e6f9d23a6ccb, type: 3}
       propertyPath: handsOcupied
       value: 0
       objectReference: {fileID: 0}
