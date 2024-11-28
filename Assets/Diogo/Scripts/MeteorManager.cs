@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Mono.Cecil.Cil;
 
 public class MeteorManager : MonoBehaviour
 {
@@ -44,6 +43,7 @@ public class MeteorManager : MonoBehaviour
         if (GameManager.gameManager.State == GameState.GameEnd || GameManager.gameManager.State == GameState.InitialScreen)
         {
             gameStarted = false;
+            check = false;
             foreach (GameObject meteor in activeMeteors) Destroy(meteor);
             activeMeteors.Clear();
         }

@@ -7,6 +7,8 @@ public class MainMenuUI : MonoBehaviour
     [Header("UI Buttons")]
     [SerializeField] private Button startGameBtn, settingsBtn, quitGameBtn;
 
+    private bool check = false;
+
     private void Start()
     {
         startGameBtn.onClick.AddListener(StartGame);
@@ -16,7 +18,13 @@ public class MainMenuUI : MonoBehaviour
 
     private void StartGame() 
     {
-        GameManager.gameManager.UpdateGameState(GameState.VideoPlayer);
+        if (check == false)
+        {
+            GameManager.gameManager.UpdateGameState(GameState.VideoPlayer);
+            check = true;
+        }
+        else
+            GameManager.gameManager.UpdateGameState(GameState.GameStart);
     }
         
     private void SettingsScreen()

@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Field Division")]
     public bool isPlayerOnLeftSide = true; // Indica se o Jogador está no lado esquerdo do Campo
-    public float fieldBoundaryOffSet = 1f; // Variável para definir o offset da linha imaginária
+    public float fieldBoundaryOffSet = 1f; // VariávelhandsList para definir o offset da linha imaginária
 
     [SerializeField] int playerID;
     [SerializeField] List<GameObject> handsList = new();
@@ -210,6 +210,16 @@ public class PlayerController : MonoBehaviour
         if (GameManager.gameManager.State == GameState.ShowResults)
         {
             handsOcupied = 0;
+            
+            if (handsList[1].GetComponent<HandSpaceVerification>().VerifySpaceState() == false)
+            {
+                handsList[1].GetComponent<HandSpaceVerification>().ChangeSpaceState();
+            } 
+            
+            if (handsList[0].GetComponent<HandSpaceVerification>().VerifySpaceState() == false)
+            {
+                handsList[0].GetComponent<HandSpaceVerification>().ChangeSpaceState();
+            }
 
             if (GameManager.gameManager.GetWinner() == null)
             {
