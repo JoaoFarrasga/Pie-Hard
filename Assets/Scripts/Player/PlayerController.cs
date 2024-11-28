@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (other.gameObject.GetComponent<Projectile>().GetID() != playerID)
             {
+
                 SoundManager.soundManager.PlayAudio(other.gameObject.GetComponent<Projectile>().GetClip(), other.gameObject.GetComponent<Projectile>().GetVolume());
                 //Instantiate +1 in the game
                 Vector3 offSet = new Vector3(0, 2.5f, 0);
@@ -139,6 +140,9 @@ public class PlayerController : MonoBehaviour
                 go.GetComponent<TextMeshPro>().color = floatingTextColor;
 
                 GameManager.gameManager.OnScoreChanged(other.GetComponent<Projectile>().GetID());// changes the score of the players
+
+                if (other.gameObject.GetComponent<Projectile>().GetID() == 1) other.gameObject.GetComponent<MeteorBehavior>().InstantiateBreak(Vector3.left);
+                else other.gameObject.GetComponent<MeteorBehavior>().InstantiateBreak(Vector3.right);
                 Destroy(other.gameObject);//destroys projectile
             }
         }   

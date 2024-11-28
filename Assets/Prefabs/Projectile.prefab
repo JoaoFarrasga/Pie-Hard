@@ -155,8 +155,7 @@ MonoBehaviour:
   projectileID: 0
   speed: 30
   hitClip: {fileID: 8300000, guid: 423565ed9102ad94e81168ba36e15b69, type: 3}
-  hitSoundVolume: 1
-  soundManager: {fileID: 2729276453895571747, guid: 223328430b7a486408a0393fce69cfc8, type: 3}
+  hitSoundVolume: 0.01
 --- !u!114 &5824745049746614078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +176,7 @@ MonoBehaviour:
   explosionSoundVolume: 0.01
   smokeEffect: {fileID: 4411009182107902544, guid: 88123293c55d5cc4bb59288f1f7ddfd3, type: 3}
   smokeInTrip: {fileID: 0}
+  breakEffect: {fileID: 8822833088110297719, guid: 08c6d815252e2b047b9d4a5da8d3ac72, type: 3}
   groundDamagePrefab: {fileID: 9135075546079093531, guid: 728284126eec75a46b4d2b0d6e927e3d, type: 3}
 --- !u!82 &4889124854214164733
 AudioSource:
