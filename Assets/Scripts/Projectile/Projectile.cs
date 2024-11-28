@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -11,10 +12,17 @@ public class Projectile : MonoBehaviour
     private Collider collider;
     [SerializeField] private int speed = 20;
 
+    [Header("Audio")]
+    //[SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip hitClip;
+    [SerializeField] float hitSoundVolume;
+    //[SerializeField] SoundManager soundManager;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>(); //initialize rigidbody component
         collider = GetComponent<Collider>();//initialize Collider component
+        //audioSource = GetComponent<AudioSource>();
     }
 
     public Rigidbody GetRigidBodyComponent() { return rb; }
@@ -27,10 +35,23 @@ public class Projectile : MonoBehaviour
 
     public int GetID() { return projectileID; }
 
+    //public IEnumerator PlayAudio()
+    //{
+    //    audioSource.PlayOneShot(hitClip, hitSoundVolume);
+    //    yield return new WaitForSeconds(1);
+    //    Destroy(gameObject);
+    //}
+
+    public AudioClip GetClip() { return hitClip; }
+
+    public float GetVolume() { return hitSoundVolume; }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Chao"))
         {
+            SoundManager.soundManager.PlayAudio(hitClip, hitSoundVolume);
+            //while (projectileCollisionSound.isPlaying) continue;
             Destroy(gameObject);
         }
     }

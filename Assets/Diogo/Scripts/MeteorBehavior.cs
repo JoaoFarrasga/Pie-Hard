@@ -8,7 +8,7 @@ public class MeteorBehavior : MonoBehaviour
     public AudioClip explosionSound;   // Som ao bater no chão
     public float spawnSoundVolume;     // Volume do som de spawn (0 a 1)
     public float explosionSoundVolume; // Volume do som de impacto (0 a 1)
-    public GameObject smokeEffect;     // Prefab do efeito de fumaça
+    public GameObject smokeEffect, smokeInTrip;     // Prefab do efeito de fumaça
     public GameObject groundDamagePrefab; // Prefab para a marca no chão
 
     private bool hasLanded = false;
@@ -17,7 +17,7 @@ public class MeteorBehavior : MonoBehaviour
     void Start()
     {
         // Adicionar o AudioSource
-        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource = gameObject.GetComponent<AudioSource>();
         audioSource.spatialBlend = 1.0f; // Configurar som 3D (localizado no espaço)
         audioSource.rolloffMode = AudioRolloffMode.Linear; // Ajuste de rolagem do áudio (linear)
 
@@ -41,6 +41,13 @@ public class MeteorBehavior : MonoBehaviour
         {
             col.isTrigger = false; // O meteoro é sólido durante a queda
         }
+
+        smokeInTrip = InstantiateSmoke();
+
+        //GameObject go = Instantiate(smokeEffect, gameObject.transform, false);
+        //go.transform.localPosition = Vector3.zero;
+        //Vector3 distance = transform.position - target.position;
+        //transform.rotation = Quaternion.LookRotation(distance, Vector3.up);
     }
 
     void Update()
@@ -101,7 +108,7 @@ public class MeteorBehavior : MonoBehaviour
         // Criar o efeito de fumaça
         if (smokeEffect != null)
         {
-            GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity);
+            //GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity);
             
         }
 
@@ -111,6 +118,18 @@ public class MeteorBehavior : MonoBehaviour
             Instantiate(groundDamagePrefab, transform.position, Quaternion.Euler(90, 0, 0)); // Rotação para alinhar ao chão
         }
 
+        smokeInTrip.GetComponent<ParticleSystem>().Stop();
+
         Debug.Log("Meteoro aterrou, marca criada no chão.");
+    }
+
+    private GameObject InstantiateSmoke()
+    {
+        GameObject go = Instantiate(smokeEffect, gameObject.transform, false);
+        go.transform.localPosition = Vector3.zero;
+        Vector3 distance = transform.position - target.position;
+        transform.rotation = Quaternion.LookRotation(distance, Vector3.up);
+
+        return go;
     }
 }

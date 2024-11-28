@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f; // Velocidade do movimento do Jogador
 
     [Header("Game Field Bounds")]
-    public Vector2 minBounds = new Vector2(-10f, -10f); // Limites mínimos do campo de jogo (X e Z)
-    public Vector2 maxBounds = new Vector2(10f, 10f);   // Limites máximos do campo de jogo (X e Z)
+    public Vector2 minBounds = new Vector2(-10f, -17.6f); // Limites mínimos do campo de jogo (X e Z)
+    public Vector2 maxBounds = new Vector2(10f, 2.4f);   // Limites máximos do campo de jogo (X e Z)
 
     [Header("Field Division")]
     public bool isPlayerOnLeftSide = true; // Indica se o Jogador está no lado esquerdo do Campo
@@ -134,6 +134,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (other.gameObject.GetComponent<Projectile>().GetID() != playerID)
             {
+                SoundManager.soundManager.PlayAudio(other.gameObject.GetComponent<Projectile>().GetClip(), other.gameObject.GetComponent<Projectile>().GetVolume());
                 //Instantiate +1 in the game
                 Vector3 offSet = new Vector3(0, 2.5f, 0);
                 GameObject go = Instantiate(floatingTextPrefab, gameObject.transform.position, Quaternion.identity);
