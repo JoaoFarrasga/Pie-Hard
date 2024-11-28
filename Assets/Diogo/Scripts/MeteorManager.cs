@@ -15,6 +15,8 @@ public class MeteorManager : MonoBehaviour
     [SerializeField] private List<GameObject> activeMeteors = new();    // Meteoros ativos em cada posição
     [SerializeField] private bool gameStarted = false;      // Indica se o jogo já começou
 
+    [SerializeField] GameObject breakEffect;
+
     void Start()
     {
         // Inicializa o array de meteoros ativos
@@ -37,7 +39,14 @@ public class MeteorManager : MonoBehaviour
         if (GameManager.gameManager.State == GameState.GameEnd || GameManager.gameManager.State == GameState.InitialScreen)
         {
             gameStarted = false;
-            foreach (GameObject meteor in activeMeteors) Destroy(meteor);
+            foreach (GameObject meteor in activeMeteors)
+            {
+                GameObject go = Instantiate(breakEffect, meteor.transform);
+                go.transform.localPosition = Vector3.zero;
+                go.transform.parent = null;
+                go.transform.rotation = Quaternion.LookRotation(Vector3.up, Vector3.up);
+                Destroy(meteor);
+            }
             activeMeteors.Clear();
         }
     }

@@ -8,11 +8,12 @@ public class MeteorBehavior : MonoBehaviour
     public AudioClip explosionSound;   // Som ao bater no chão
     public float spawnSoundVolume;     // Volume do som de spawn (0 a 1)
     public float explosionSoundVolume; // Volume do som de impacto (0 a 1)
-    public GameObject smokeEffect, smokeInTrip;     // Prefab do efeito de fumaça
+    public GameObject smokeEffect, smokeInTrip, breakEffect;     // Prefab do efeito de fumaça
     public GameObject groundDamagePrefab; // Prefab para a marca no chão
 
     private bool hasLanded = false;
     private AudioSource audioSource;
+
 
     void Start()
     {
@@ -43,11 +44,6 @@ public class MeteorBehavior : MonoBehaviour
         }
 
         smokeInTrip = InstantiateSmoke();
-
-        //GameObject go = Instantiate(smokeEffect, gameObject.transform, false);
-        //go.transform.localPosition = Vector3.zero;
-        //Vector3 distance = transform.position - target.position;
-        //transform.rotation = Quaternion.LookRotation(distance, Vector3.up);
     }
 
     void Update()
@@ -131,5 +127,13 @@ public class MeteorBehavior : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(distance, Vector3.up);
 
         return go;
+    }
+
+    public void InstantiateBreak(Vector3 negativeVectorDirection)
+    {
+        GameObject go = Instantiate(breakEffect, gameObject.transform);
+        go.transform.localPosition = Vector3.zero;
+        go.transform.parent = null;
+        go.transform.rotation = Quaternion.LookRotation(negativeVectorDirection, Vector3.up);
     }
 }

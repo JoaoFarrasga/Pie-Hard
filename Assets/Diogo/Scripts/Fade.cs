@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class DestroyAfterTime : MonoBehaviour
+public class Fade : MonoBehaviour
 {
     public float lifetime = 1f;
     MeshRenderer mat;
@@ -10,7 +10,6 @@ public class DestroyAfterTime : MonoBehaviour
     {
         mat = GetComponent<MeshRenderer>();
         StartCoroutine(FadeOut());
-        //Destroy(gameObject, lifetime);
     }
 
     private IEnumerator FadeOut()

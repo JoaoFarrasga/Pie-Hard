@@ -90,6 +90,7 @@ MonoBehaviour:
   spawnEffect: {fileID: 0}
   activeMeteors: []
   gameStarted: 0
+  breakEffect: {fileID: 8822833088110297719, guid: 08c6d815252e2b047b9d4a5da8d3ac72, type: 3}
 --- !u!54 &6176967593633547633
 Rigidbody:
   m_ObjectHideFlags: 0
