@@ -18,12 +18,12 @@ public class MainMenuUI : MonoBehaviour
 
     private void StartGame() 
     {
-        if (check == false)
-        {
-            GameManager.gameManager.UpdateGameState(GameState.VideoPlayer);
-            check = true;
-        }
-        else
+        //if (check == false)
+        //{
+        //    GameManager.gameManager.UpdateGameState(GameState.VideoPlayer);
+        //    check = true;
+        //}
+        //else
             GameManager.gameManager.UpdateGameState(GameState.GameStart);
     }
         

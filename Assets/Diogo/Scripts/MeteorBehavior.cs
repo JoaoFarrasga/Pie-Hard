@@ -12,7 +12,11 @@ public class MeteorBehavior : MonoBehaviour
     public GameObject groundDamagePrefab; // Prefab para a marca no chão
 
     private bool hasLanded = false;
+
+    [Header("Audio")]
     private AudioSource audioSource;
+    [SerializeField] AudioClip hitClip;
+    [SerializeField] float hitSoundVolume;
 
 
     void Start()
@@ -61,13 +65,37 @@ public class MeteorBehavior : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (hasLanded)
+        {
+            if (other.CompareTag("Chao"))
+            {
+                SoundManager.soundManager.PlayAudio(hitClip, hitSoundVolume);
+                InstantiateBreak(Vector3.up);
+                Destroy(gameObject);
+            }
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         // Detectar quando o meteoro atinge o chão
-        if (!hasLanded && collision.transform.CompareTag("Ground")) // Certifique-se que o chão tem a tag "Ground"
+        if (!hasLanded)
         {
-            Land();
+            //if (collision.transform.CompareTag("Ground")) // Certifique-se que o chão tem a tag "Ground"
+            //{
+            //    Land();
+            //}
+
+            if (collision.transform.CompareTag("Player"))
+            {
+                InstantiateBreak(Vector3.up);
+                SoundManager.soundManager.PlayAudio(hitClip, hitSoundVolume);
+                Destroy(gameObject);
+            }
         }
+
     }
 
     private void Land()
@@ -105,7 +133,7 @@ public class MeteorBehavior : MonoBehaviour
         if (smokeEffect != null)
         {
             //GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity);
-            
+
         }
 
         // Criar a marca no chão
@@ -115,6 +143,7 @@ public class MeteorBehavior : MonoBehaviour
         }
 
         smokeInTrip.GetComponent<ParticleSystem>().Stop();
+        smokeInTrip.gameObject.transform.parent = null;
     }
 
     private GameObject InstantiateSmoke()
@@ -134,4 +163,8 @@ public class MeteorBehavior : MonoBehaviour
         go.transform.parent = null;
         go.transform.rotation = Quaternion.LookRotation(negativeVectorDirection, Vector3.up);
     }
+
+    public AudioClip GetClip() { return hitClip; }
+
+    public float GetVolume() { return hitSoundVolume; }
 }

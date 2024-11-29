@@ -7,7 +7,7 @@ public class MeteorManager : MonoBehaviour
     public GameObject objectToSpawn;        // Prefab do meteoro
     public GameObject spawnPlane;          // Plano invis�vel para spawnar meteoros
     public Transform[] spawnPositions;     // Posi��es predefinidas na arena
-    public float respawnDelay = 2f;        // Tempo de espera para respawnar meteoros
+    public float respawnDelay = 1f;        // Tempo de espera para respawnar meteoros
     public GameObject spawnEffect;         // Efeito visual ao spawnar (opcional)
 
     [SerializeField] private List<GameObject> activeMeteors = new();    // Meteoros ativos em cada posi��o
@@ -48,6 +48,7 @@ public class MeteorManager : MonoBehaviour
 
             foreach (GameObject meteor in activeMeteors)
             {
+                if (meteor == null) continue;
                 GameObject go = Instantiate(breakEffect, meteor.transform);
                 go.transform.localPosition = Vector3.zero;
                 go.transform.parent = null;

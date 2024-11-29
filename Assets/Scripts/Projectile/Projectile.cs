@@ -12,9 +12,11 @@ public class Projectile : MonoBehaviour
     private Collider collider;
     [SerializeField] private int speed = 20;
 
-    [Header("Audio")]
-    [SerializeField] AudioClip hitClip;
-    [SerializeField] float hitSoundVolume;
+    //[Header("Audio")]
+    //[SerializeField] AudioClip hitClip;
+    //[SerializeField] float hitSoundVolume;
+
+    //[SerializeField] MeteorBehavior meteorBehavior;
 
     private void Start()
     {
@@ -33,16 +35,16 @@ public class Projectile : MonoBehaviour
 
     public int GetID() { return projectileID; }
 
-    public AudioClip GetClip() { return hitClip; }
+    //public AudioClip GetClip() { return hitClip; }
 
-    public float GetVolume() { return hitSoundVolume; }
+    //public float GetVolume() { return hitSoundVolume; }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Chao"))
-        {
-            SoundManager.soundManager.PlayAudio(hitClip, hitSoundVolume);
-            Destroy(gameObject);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Chao"))
+    //    {
+    //        SoundManager.soundManager.PlayAudio(hitClip, hitSoundVolume);
+    //        Destroy(gameObject);
+    //    }
+    //}
 }

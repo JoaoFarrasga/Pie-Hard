@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         GameManager.OnGameStateChanged += OnGameStateUIChanged;
-        currentUI = uiGO[0]; // Makes main menu current ui
+        //currentUI = uiGO[0]; // Makes main menu current ui
     }
 
     private void OnDestroy()

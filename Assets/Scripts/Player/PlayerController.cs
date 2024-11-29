@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
             else if (other.gameObject.GetComponent<Projectile>().GetID() != playerID)
             {
 
-                SoundManager.soundManager.PlayAudio(other.gameObject.GetComponent<Projectile>().GetClip(), other.gameObject.GetComponent<Projectile>().GetVolume());
+                SoundManager.soundManager.PlayAudio(other.gameObject.GetComponent<MeteorBehavior>().GetClip(), other.gameObject.GetComponent<MeteorBehavior>().GetVolume());
                 //Instantiate +1 in the game
                 Vector3 offSet = new Vector3(0, 2.5f, 0);
                 GameObject go = Instantiate(floatingTextPrefab, gameObject.transform.position, Quaternion.identity);

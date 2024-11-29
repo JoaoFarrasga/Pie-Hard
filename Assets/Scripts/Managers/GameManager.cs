@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateGameState(GameState.InitialScreen);
+        UpdateGameState(GameState.VideoPlayer);
         AddPlayers(2);
     }
 
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
     {
         // Aguarde at� que o v�deo termine (11 segundos neste caso)
         yield return new WaitForSeconds(11f);
-        UpdateGameState(GameState.GameStart); // Troca para o pr�ximo estado
+        UpdateGameState(GameState.InitialScreen); // Troca para o pr�ximo estado
     }
 
     private IEnumerator StartGame()
@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
     public double GetTimer() { return time; }
 
     // Resets the timer
-    public void ResetTimer() { time = 15; }
+    public void ResetTimer() { time = 45; }
 
     // Resets the score
     public void ResetScore()
