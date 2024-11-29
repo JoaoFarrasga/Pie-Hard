@@ -71,13 +71,17 @@ public class PlayerController : MonoBehaviour
         throwProjectile.started += i => ThrowStateSwitch(); // Stats the action throw when clicked on Throw Key
     }
 
-    private void ThrowStateSwitch() 
+    // Método para ativar o estado "Throw" e bloquear movimento/rotação
+    private void ThrowStateSwitch()
     {
         if (handsOcupied != 0 && !isThrowing)
         {
             playerStateMachine.SwitchState(playerStateMachine.throwState);
-            isThrowing = true;
-        }    
+            isThrowing = true; // Ativa o estado de lançamento
+
+            // Bloqueia o movimento e rotação durante o lançamento
+            movementInput = Vector3.zero; // Para imediatamente o movimento
+        }
     }
 
     public void ThrowObject()
@@ -247,10 +251,16 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(GameManager.gameManager.State == GameState.InGame)
+        if (GameManager.gameManager.State == GameState.InGame)
         {
-            // Se o personagem está no esdo de TakeDamage, não precisa de se movimentar
+            // Se o personagem está no estado TakeDamage, não precisa de se movimentar
             if (playerStateMachine.currentState is TakeDamageState)
+            {
+                return;
+            }
+
+            // Se o jogador está no estado de "Throwing", não permite movimento ou rotação
+            if (isThrowing)
             {
                 return;
             }
@@ -268,6 +278,9 @@ public class PlayerController : MonoBehaviour
     // Função que realiza o movimento do jogador e aplica as suas restrições
     private void MovePlayer()
     {
+        // Não permite movimento enquanto está "Throwing"
+        if (isThrowing) return;
+
         // Calcula a nova posição com base na entrada de movimento, velocidade e deltaTime
         Vector3 newPosition = rb.position + movementInput * moveSpeed * Time.fixedDeltaTime;
 
@@ -292,12 +305,13 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(newPosition);
     }
 
+
     private void RotatePlayer()
     {
-        // Apenas rotaciona o personagem se ele estiver-se a mover
-        if (isMoving)
+        // Apenas rotaciona o personagem se ele estiver-se a mover e não estiver "Throwing"
+        if (isMoving && !isThrowing)
         {
-            // Clacula a rotação alvo com base na direção do movimento
+            // Calcula a rotação alvo com base na direção do movimento
             Quaternion targetRotation = Quaternion.LookRotation(lastFacingDirection);
 
             // Faz o personagem olhar na direção do movimento
